@@ -1,3 +1,4 @@
+using CleanTeeth.Application.Contracts.Persistence;
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Domain.Entities;
 
@@ -6,16 +7,29 @@ namespace CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOff
 public class CreateDentalOfficeHandler
 {
     private readonly IDentalOfficeRepository _repository;
-    public CreateDentalOfficeHandler(IDentalOfficeRepository repository)
+    
+    private readonly IUnitOfWork _unitOfWork;
+    public CreateDentalOfficeHandler(IDentalOfficeRepository repository, IUnitOfWork unitOfWork)
     {
         this._repository = repository;
+        this._unitOfWork = unitOfWork;
     }
 
     public async Task<Guid> Handle(CreateDentalOfficeCommand command)
     {
         var dentalOffice = new DentalOffice(command.Name);
-        var result = await _repository.Add(dentalOffice);
-        return result.Id;
+        try
+        {
+            var result = await _repository.Add(dentalOffice);
+            await _unitOfWork.Commit();
+            return result.Id;
+        }
+        catch (Exception e)
+        {
+            await _unitOfWork.Rollback();
+            throw;
+        }
+
     }
 }
 
