@@ -1,12 +1,13 @@
 using CleanTeeth.Application.Contracts.Persistence;
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Exceptions;
+using CleanTeeth.Application.Utilities;
 using CleanTeeth.Domain.Entities;
 using FluentValidation;
 
 namespace CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
 
-public class CreateDentalOfficeHandler
+public class CreateDentalOfficeHandler : IRequestHandler<CreateDentalOfficeCommand,Guid>
 {
     private readonly IDentalOfficeRepository _repository;
     
