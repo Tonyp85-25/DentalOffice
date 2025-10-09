@@ -13,21 +13,16 @@ public class CreateDentalOfficeHandler : IRequestHandler<CreateDentalOfficeComma
     
     private readonly IUnitOfWork _unitOfWork;
 
-    private readonly IValidator<CreateDentalOfficeCommand> _validator;
-    public CreateDentalOfficeHandler(IDentalOfficeRepository repository, IUnitOfWork unitOfWork, IValidator<CreateDentalOfficeCommand> validator)
+  
+    public CreateDentalOfficeHandler(IDentalOfficeRepository repository, IUnitOfWork unitOfWork)
     {
         this._repository = repository;
         this._unitOfWork = unitOfWork;
-        this._validator = validator;
+        
     }
 
     public async Task<Guid> Handle(CreateDentalOfficeCommand command)
     {
-        var validationResult = await _validator.ValidateAsync(command);
-        if (!validationResult.IsValid)
-        {
-            throw new CustomValidationException(validationResult);
-        }
         var dentalOffice = new DentalOffice(command.Name);
         try
         {
