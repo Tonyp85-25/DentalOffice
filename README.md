@@ -15,9 +15,9 @@ This repository will implement:
 
 
 ## TODO
-    ### Disagreements with the trainer
-    - remove logic from constructors and put them in static factory method (and make private the concerned constructors)
-    - replace most of mock objects by stubs
+### Disagreements with the instructor
+- remove logic from constructors and put them in static factory method (and make private the concerned constructors)
+- replace most of mock objects by stubs
 
-    ### Additional features
-     - integration tests (test containers?)
+### Additional features
+ - integration tests (test containers?)
