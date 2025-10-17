@@ -22,7 +22,7 @@ public class DentalOfficeQueryTests
     [TestMethod]
     public async Task Handle_DentalOfficeExists_ReturnsIt()
     {
-        var dentalOffice = new DentalOffice("Dental Office A");
+        var dentalOffice = new DentalOffice("Dental Office A",Guid.Empty);
         var id = dentalOffice.Id;
         await _repository.Add(dentalOffice);
         var query = new GetDentalOfficeDetailQuery { Id = id };
