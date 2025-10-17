@@ -2,8 +2,7 @@ using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.Entities;
-using NSubstitute;
-using NSubstitute.ReturnsExtensions;
+using CleanTeeth.Tests.Infrastructure;
 
 namespace CleanTeeth.Tests.Application.Features.DentalOffices;
 
@@ -16,7 +15,7 @@ public class DentalOfficeQueryTests
     [TestInitialize]
     public void Setup()
     {
-        _repository = Substitute.For<IDentalOfficeRepository>();
+        _repository = new StubDentalOfficeRepository();
         _handler = new GetDentalOfficeDetailQueryHandler(_repository);
     }
 
@@ -25,9 +24,9 @@ public class DentalOfficeQueryTests
     {
         var dentalOffice = new DentalOffice("Dental Office A");
         var id = dentalOffice.Id;
+        await _repository.Add(dentalOffice);
         var query = new GetDentalOfficeDetailQuery { Id = id };
-        // what??? 
-        _repository.GetById(id).Returns(dentalOffice);
+        
         var result = await _handler.Handle(query);
         
         Assert.IsNotNull(result);
@@ -42,7 +41,6 @@ public class DentalOfficeQueryTests
         var id = Guid.Empty;
         var query = new GetDentalOfficeDetailQuery { Id = id };
         // what??? 
-        _repository.GetById(id).ReturnsNull();
         await _handler.Handle(query);
     }
     
