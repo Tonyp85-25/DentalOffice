@@ -32,5 +32,13 @@ public class DentalOfficeController : ControllerBase
         await _mediator.Send(command);
         return Ok();
     }
+
+    [HttpGet]
+    public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAll()
+    {
+        var query = new GetDentalOfficeListQuery();
+        List<DentalOfficeListDTO> result = await _mediator.Send(query);
+        return result;
+    }
     
 }

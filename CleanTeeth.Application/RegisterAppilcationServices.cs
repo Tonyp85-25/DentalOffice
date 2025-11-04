@@ -14,6 +14,9 @@ public static class RegisterApplicationServices
         services
             .AddScoped<IRequestHandler<GetDentalOfficeDetailQuery, DentalOfficeDetailDTO>,
                 GetDentalOfficeDetailQueryHandler>();
+        services
+                    .AddScoped<IRequestHandler<GetDentalOfficeListQuery, List<DentalOfficeListDTO>>,
+                        GetDentalOfficeListQueryHandler>();
         return services;
     }
 }
