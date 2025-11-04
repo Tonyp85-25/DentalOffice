@@ -14,7 +14,7 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
 
     public Task<IEnumerable<DentalOffice>> GetAll()
     {
-        throw new NotImplementedException();
+        return Task.FromResult<IEnumerable<DentalOffice>>(Data);
     }
 
     public Task<DentalOffice> Add(DentalOffice entity)
