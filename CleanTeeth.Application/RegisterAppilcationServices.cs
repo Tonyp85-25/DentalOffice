@@ -10,13 +10,11 @@ public static class RegisterApplicationServices
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddTransient<IMediator, SimpleMediator>();
-        services.AddScoped<IRequestHandler<CreateDentalOfficeCommand, Guid>, CreateDentalOfficeHandler>();
-        services
-            .AddScoped<IRequestHandler<GetDentalOfficeDetailQuery, DentalOfficeDetailDTO>,
-                GetDentalOfficeDetailQueryHandler>();
-        services
-                    .AddScoped<IRequestHandler<GetDentalOfficeListQuery, List<DentalOfficeListDTO>>,
-                        GetDentalOfficeListQueryHandler>();
+        services.Scan(scan => scan.FromAssembliesOf(typeof(RegisterApplicationServices))
+            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime()
+        );
         return services;
     }
 }
