@@ -19,5 +19,7 @@ This repository will implement:
 - remove logic from constructors and put them in static factory method (and make private the concerned constructors)
 - replace most of mock objects by stubs
 
-### Additional features
+### Additional features (WIP)
+ - Data scheme modified : Dentist are related to one dental office currently => maybe several in the future
+ - A dental office has a location, a list of dentists, and opening days and hours
  - integration tests (test containers?)

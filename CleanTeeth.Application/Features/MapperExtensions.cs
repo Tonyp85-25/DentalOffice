@@ -1,4 +1,5 @@
 using CleanTeeth.Application.Features.DentalOffices.Queries;
+using CleanTeeth.Application.Features.Dentists.Command.CreateDentist;
 using CleanTeeth.Domain.Entities;
 
 namespace CleanTeeth.Application.Features;
@@ -14,4 +15,5 @@ internal static class MapperExtensions
         };
         return dto;
     }
+    
 }

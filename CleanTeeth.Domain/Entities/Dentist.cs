@@ -5,24 +5,46 @@ namespace CleanTeeth.Domain.Entities;
 
 public class Dentist
 {
-    public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
-    public Email Email { get; private set; } = null!;
+    public Guid Id { get;  set; }
+    public string LastName { get; set; } = null!;
+    public string FirstName { get;  set; } = null!;
+    public Email Email { get; set; } = null!;
+    
 
-    public Dentist(string name, Email email)
+    private List<DentalOffice> DentalOffices { get; set; } = new();
+
+    public bool IsPublished { get; private set; } = false;
+
+    private bool HasDentalOffice => DentalOffices.Count > 0;
+
+    private void Publish()
     {
-        if (email is null)
-        {
-            throw new BusinessRuleException($" The {nameof(email)} is required");
-        }
-      
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new BusinessRuleException($" The {nameof(name)} is required");
-        }
-        
-        Name = name;
-        Id = Guid.NewGuid();
-        Email = email;
+        IsPublished = true;
     }
+    private void Unpublish()
+    {
+        IsPublished = false;
+    }
+    
+
+    public void AddDentalOffice(DentalOffice dentalOffice)
+    {
+        if (!HasDentalOffice)
+        {
+            Publish();
+        }
+        DentalOffices.Add(dentalOffice);
+        
+    }
+    public void RemoveDentalOffice(DentalOffice dentalOffice)
+    {
+        DentalOffices.Remove(dentalOffice);
+        if (!HasDentalOffice)
+        {
+            Unpublish();
+        }
+    }
+    
+    
+
 }

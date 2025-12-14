@@ -1,6 +1,7 @@
 using System.Reflection;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Utilities;
+using CleanTeeth.Tests.Infrastructure;
 using FluentValidation;
 
 
@@ -9,25 +10,7 @@ namespace CleanTeeth.Tests.Application.Utilities;
 [TestClass]
 public class SimpleMediatorTests
 {
-    public class FakeServiceProvider : IServiceProvider
-    {
-        private List<(Type,Type)> _services = new();
 
-        public void AddService<I, T>() 
-        {
-            _services.Add((typeof(I),typeof(T)));
-        }
-        public object? GetService(Type serviceType)
-        {
-            var service = _services.FirstOrDefault(s=>s.Item1.FullName == serviceType.FullName).Item2;
-            if (service is not null)
-            {
-                return Activator.CreateInstance(service);
-            }
-
-            return null;
-        }
-    }
     public class FalseRequest: IRequest<string>
     {
         public required string Name { get; set; }

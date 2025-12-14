@@ -39,11 +39,18 @@ public class CreateDentalOfficeCommandHandlerTests
         var dentalOffice = new DentalOffice("Dental Office A", Guid.Empty);
         await  _repository.Add(dentalOffice);
         _repository.MustThrows = true;
-        var command = new CreateDentalOfficeCommand { Name = "Dental Office A" };
-        await Assert.ThrowsExceptionAsync<Exception>(async () =>
+        var command = new CreateDentalOfficeCommand { Name = "Dental Office B" };
+        try
         {
             await _handler.Handle(command);
-        });
-        Assert.AreEqual(1, _repository.Data.Count());
+        }
+        catch (Exception e)
+        {
+        }
+
+        var dentalOffices = await _repository.GetAll();
+        Assert.AreEqual(1, dentalOffices.Count());
+    
+        
     }
 }

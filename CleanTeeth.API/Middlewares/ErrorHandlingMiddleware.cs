@@ -41,6 +41,10 @@ public class ErrorHandlingMiddleware
                 statusCode = HttpStatusCode.BadRequest;
                 result = JsonSerializer.Serialize(customValidationException.ValidationErrors);
                 break;
+            case AlreadyExistsException:
+                statusCode = HttpStatusCode.BadRequest;
+                result = JsonSerializer.Serialize("Data already exists");
+                break;
         }
 
         context.Response.StatusCode = (int)statusCode;

@@ -1,0 +1,20 @@
+POST http://localhost:80/api/item
+Content-Type: application/x-www-form-urlencoded
+
+id = 99 &
+content = new-element
+
+###
+
+###
+@CleanTeeth.API_HostAddress = http://localhost:5117/api/dentists
+
+###
+POST {{CleanTeeth.API_HostAddress}}
+Content-Type: application/json
+{
+    "FirstName":"Toto",
+    "LastName":"Tutu",
+    "Email": "toto@tutu.com",
+}
+###
