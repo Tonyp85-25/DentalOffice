@@ -14,6 +14,9 @@ public static class RegisterApplicationServices
             .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<>)))
             .AsImplementedInterfaces()
             .WithScopedLifetime()
+            .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<,>)))
+            .AsImplementedInterfaces()
+            .WithScopedLifetime()
         );
         return services;
     }
