@@ -13,6 +13,7 @@ namespace CleanTeeth.Persistence;
 
 public static class RegisterPersistenceServices
 {
+    private const int DefaultPort = 1433;
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services,IConfiguration config)
     {
         string dbConnection = GetDBString(config);
@@ -29,7 +30,7 @@ public static class RegisterPersistenceServices
     private static string GetDBString(IConfiguration config)
     {
         var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
-        strBuilder.DataSource = config["DbHost"];
+        strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString()}";
         strBuilder.InitialCatalog = config["DbName"];
         strBuilder.UserID = config["DbUser"];
         strBuilder.Password = config["DbPassword"];
