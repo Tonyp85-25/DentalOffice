@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.Persistence", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.API", "CleanTeeth.API\CleanTeeth.API.csproj", "{4FDFB570-C489-4AF1-8BE8-B2EA293CF2C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.IntegrationTests", "CleanTeeth.IntegrationTests\CleanTeeth.IntegrationTests.csproj", "{2E375E3F-329C-4226-B791-A58DF5D7A2ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,7 @@ Global
 		{9CC9779E-7535-41A6-A76F-D5A3DD90BEB7} = {20035995-A7B5-44E6-9279-7ED0B1DB70B8}
 		{EEF74CCC-74FC-4FFB-96DD-4BAB383C92E0} = {1D6D20CB-46D9-49A7-87A6-2306AF43BC53}
 		{4FDFB570-C489-4AF1-8BE8-B2EA293CF2C9} = {40554912-D42B-468A-94C9-16862B30DCD7}
+		{2E375E3F-329C-4226-B791-A58DF5D7A2ED} = {46DADD46-1DED-4C6D-9B28-9A960A6F3E0F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FFF2DC42-29A3-4D6E-BDFA-69402F54058F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -51,5 +54,9 @@ Global
 		{4FDFB570-C489-4AF1-8BE8-B2EA293CF2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FDFB570-C489-4AF1-8BE8-B2EA293CF2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FDFB570-C489-4AF1-8BE8-B2EA293CF2C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E375E3F-329C-4226-B791-A58DF5D7A2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E375E3F-329C-4226-B791-A58DF5D7A2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E375E3F-329C-4226-B791-A58DF5D7A2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E375E3F-329C-4226-B791-A58DF5D7A2ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

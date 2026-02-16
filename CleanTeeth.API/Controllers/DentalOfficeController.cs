@@ -29,8 +29,9 @@ public class DentalOfficeController : ControllerBase
     public async Task<IActionResult> Post(CreateDentalOfficeDTO createDentalOfficeDto)
     {
         var command = new CreateDentalOfficeCommand { Name = createDentalOfficeDto.Name };
-        await _mediator.Send(command);
-        return Ok();
+        var result =await _mediator.Send(command);
+        var location = $"/{result}";
+        return Created(location, result);
     }
 
     [HttpGet]

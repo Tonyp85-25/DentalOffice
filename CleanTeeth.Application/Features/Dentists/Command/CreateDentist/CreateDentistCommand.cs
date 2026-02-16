@@ -4,7 +4,6 @@ using CleanTeeth.Application.Contracts.Services;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Utilities;
 using CleanTeeth.Domain.Entities;
-using CleanTeeth.Domain.Exceptions;
 using CleanTeeth.Domain.ValueObjects;
 using FluentValidation;
 

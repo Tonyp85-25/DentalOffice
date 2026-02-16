@@ -30,10 +30,14 @@ public static class RegisterPersistenceServices
     private static string GetDBString(IConfiguration config)
     {
         var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
-        strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString()}";
-        strBuilder.InitialCatalog = config["DbName"];
-        strBuilder.UserID = config["DbUser"];
-        strBuilder.Password = config["DbPassword"];
+        if (string.IsNullOrEmpty(strBuilder.InitialCatalog))
+        {
+            strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString()}";
+            strBuilder.InitialCatalog = config["DbName"];
+            strBuilder.UserID = config["DbUser"];
+            strBuilder.Password = config["DbPassword"];
+        }
+      
         return strBuilder.ConnectionString;
     } 
 }

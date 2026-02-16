@@ -15,16 +15,16 @@ public record CreateDentistDTO()
     [Required]
     [MinLength(2)]
     [MaxLength(30)]
-    public string LastName { get; set; }
+    public required string LastName { get; set; }
     [Required]
     [MinLength(2)]
     [MaxLength(30)]
-    public string FirstName { get; set; }
+    public required string FirstName { get; set; }
     
     [Required]
     [EmailAddress]
     [MaxLength(60)]
-    public string Email { get; set; }
+    public required string Email { get; set; }
     
     public List<string> Offices { get; set; } = new();
 
