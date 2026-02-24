@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46DADD46
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.Domain", "CleanTeeth.Domain\CleanTeeth.Domain.csproj", "{FFF2DC42-29A3-4D6E-BDFA-69402F54058F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.Tests", "CleanTeeth.Tests\CleanTeeth.Tests.csproj", "{8B29528E-4C4D-4C2A-9BFD-4198D5FFA502}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.UnitTests", "CleanTeeth.UnitTests\CleanTeeth.UnitTests.csproj", "{8B29528E-4C4D-4C2A-9BFD-4198D5FFA502}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.Application", "CleanTeeth.Application\CleanTeeth.Application.csproj", "{9CC9779E-7535-41A6-A76F-D5A3DD90BEB7}"
 EndProject
