@@ -2,6 +2,7 @@ using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.Entities;
+using CleanTeeth.Domain.ValueObjects;
 using CleanTeeth.Tests.Infrastructure;
 
 namespace CleanTeeth.Tests.Application.Features.DentalOffices;
@@ -22,7 +23,8 @@ public class DentalOfficeQueryTests
     [TestMethod]
     public async Task Handle_DentalOfficeExists_ReturnsIt()
     {
-        var dentalOffice = new DentalOffice("Dental Office A",Guid.Empty);
+        var address = Address.Create("", "street", "11111", "city");
+        var dentalOffice = DentalOffice.Create("Dental Office A",Guid.Empty, address);
         var id = dentalOffice.Id;
         await _repository.Add(dentalOffice);
         var query = new GetDentalOfficeDetailQuery { Id = id };

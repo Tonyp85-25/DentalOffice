@@ -1,4 +1,5 @@
 using CleanTeeth.API.DTO.DentalOffices;
+using CleanTeeth.API.Extensions;
 using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Application.Utilities;
@@ -28,7 +29,7 @@ public class DentalOfficeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(CreateDentalOfficeDTO createDentalOfficeDto)
     {
-        var command = new CreateDentalOfficeCommand { Name = createDentalOfficeDto.Name };
+        var command = createDentalOfficeDto.ToCommand();
         var result =await _mediator.Send(command);
         var location = $"/{result}";
         return Created(location, result);

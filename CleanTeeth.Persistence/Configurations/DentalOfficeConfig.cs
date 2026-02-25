@@ -1,4 +1,5 @@
 using CleanTeeth.Domain.Entities;
+using CleanTeeth.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,5 +12,12 @@ internal class DentalOfficeConfig :IEntityTypeConfiguration<DentalOffice>
         builder.Property(prop => prop.Name)
             .HasMaxLength(150)
             .IsRequired();
+        builder.Property(prop => prop.Address)
+            .HasConversion(a => a.ToString(),
+                a => Address.FromString(a)
+            )
+            .IsRequired()
+            .HasMaxLength(200);
+
     }
 }

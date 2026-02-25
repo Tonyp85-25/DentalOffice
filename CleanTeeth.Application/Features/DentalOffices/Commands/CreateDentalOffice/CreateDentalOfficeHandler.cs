@@ -4,6 +4,7 @@ using CleanTeeth.Application.Contracts.Services;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Utilities;
 using CleanTeeth.Domain.Entities;
+using CleanTeeth.Domain.ValueObjects;
 using FluentValidation;
 
 namespace CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
@@ -24,9 +25,11 @@ public class CreateDentalOfficeHandler : IRequestHandler<CreateDentalOfficeComma
 
     public async Task<Guid> Handle(CreateDentalOfficeCommand command)
     {
-        var dentalOffice = new DentalOffice(command.Name, _idProvider.GetId());
+        
         try
         {
+            var address = Address.Create(command.Number, command.Street, command.Zipcode, command.City);
+            var dentalOffice = DentalOffice.Create(command.Name,_idProvider.GetId(),address) ;
             var result = await _repository.Add(dentalOffice);
             await _unitOfWork.Commit();
             return result.Id;

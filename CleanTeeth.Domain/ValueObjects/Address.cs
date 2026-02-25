@@ -66,4 +66,15 @@ public record Address
             AdditionalInfos = additional
         };
     }
+    
+    public override string ToString()
+    {
+        return $"{Number};{Street};{Zipcode};{City}";
+    }
+    
+    public static Address FromString(string address)
+    {
+        var expr = address.Split(';');
+        return Address.Create(expr[0], expr[1], expr[2], expr[3]);
+    }
 }

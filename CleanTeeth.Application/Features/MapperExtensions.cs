@@ -12,6 +12,10 @@ internal static class MapperExtensions
         {
             Id = dentalOffice.Id,
             Name = dentalOffice.Name,
+            Street = dentalOffice.Address.Street,
+            Zipcode = dentalOffice.Address.Zipcode,
+            City = dentalOffice.Address.City,
+            Number = dentalOffice.Address.Number
         };
         return dto;
     }
