@@ -14,6 +14,7 @@
     &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.Dentists.CreateDentistCommandHandlerTests&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::2E375E3F-329C-4226-B791-A58DF5D7A2ED::net8.0::CleanTeeth.IntegrationTests.Features.DentalOffices.DentalOfficesTest&lt;/TestId&gt;
     &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Domain.ValueObjects.AddressTests.Bad_Address_Throws&lt;/TestId&gt;
+    &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.DentalOffices.CreateDentalOfficeCommandHandlerTests.Handle_ValidCommand_ReturnsDentalOfficeId&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/EnvironmentVariablesIndexed/=DOCKER_005FHOST/@EntryIndexedValue">unix:///run/user/1000/docker.sock</s:String>

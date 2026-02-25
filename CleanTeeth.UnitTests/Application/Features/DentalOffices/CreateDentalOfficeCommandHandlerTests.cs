@@ -16,7 +16,7 @@ public class CreateDentalOfficeCommandBuilder
         _command= new CreateDentalOfficeCommand
         {
             City = "city",
-            Street = "",
+            Street = "street",
             Name = "",
             Number = string.Empty,
             Zipcode = "11111"
