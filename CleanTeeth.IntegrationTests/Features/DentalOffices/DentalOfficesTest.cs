@@ -55,8 +55,9 @@ public sealed class DentalOfficesTest : IClassFixture<TestContainersFixture>, IA
 
     public async ValueTask DisposeAsync()
     {
-        await _factory.DisposeAsync();
         await _dbContext.DisposeAsync();
+        await _factory.DisposeAsync();
+       
 
     }
 
