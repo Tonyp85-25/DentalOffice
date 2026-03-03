@@ -9,7 +9,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2ef07ee3_002D7eae_002D490d_002D91e7_002Dd113fd1306c7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/home/tony/extradrive/Sources/cleanTeeth" Presentation="&amp;lt;Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5f0b47c1_002D0283_002D4674_002Da78c_002D6dcd6b7ccfd3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DentalOfficesListTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5f0b47c1_002D0283_002D4674_002Da78c_002D6dcd6b7ccfd3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DentalOfficesListTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.DentalOffices.DentalOfficesListTest&lt;/TestId&gt;
     &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.Dentists.CreateDentistCommandHandlerTests&lt;/TestId&gt;
@@ -21,7 +21,12 @@
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7b564320_002D63a7_002D4978_002D9617_002D76f3e43b877d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;\&amp;lt;CleanTeeth.ArchiTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/home/tony/extradrive/Sources/cleanTeeth/CleanTeeth.ArchiTests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;CleanTeeth.ArchiTests&amp;gt;" /&gt;
+  &lt;Or&gt;
+    &lt;Project Location="/home/tony/extradrive/Sources/cleanTeeth/CleanTeeth.ArchiTests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;CleanTeeth.ArchiTests&amp;gt;" /&gt;
+    &lt;TestAncestor&gt;
+      &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.DentalOffices.DentalOfficeSearchTest&lt;/TestId&gt;
+    &lt;/TestAncestor&gt;
+  &lt;/Or&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/EnvironmentVariablesIndexed/=DOCKER_005FHOST/@EntryIndexedValue">unix:///run/user/1000/docker.sock</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/EnvironmentVariablesIndexed/=DOTNET_005FENVIRONMENT/@EntryIndexRemoved">True</s:Boolean>

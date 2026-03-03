@@ -37,6 +37,26 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
         throw new NotImplementedException();
     }
 
+    public Task<IEnumerable<DentalOffice>> GetAllBy(DentalOfficeCriteria criteria)
+    {
+        List<DentalOffice> result= new ();
+        if (!string.IsNullOrEmpty(criteria.Name))
+        {
+            result.AddRange(Data.FindAll((d => d.Name.Contains(criteria.Name, StringComparison.OrdinalIgnoreCase)))); ;
+        }
+
+        if (!string.IsNullOrEmpty(criteria.Zipcode))
+        {
+            result.AddRange(Data.FindAll((d => d.Address.Zipcode.Equals(criteria.Zipcode)))); 
+        }
+        if (!string.IsNullOrEmpty(criteria.City))
+        {
+            result.AddRange(Data.FindAll((d => d.Address.City.Equals(criteria.City)))); 
+        }
+        
+        return Task.FromResult<IEnumerable<DentalOffice>>(result);
+    }
+
     public void Throws()
     {
         throw new Exception();
