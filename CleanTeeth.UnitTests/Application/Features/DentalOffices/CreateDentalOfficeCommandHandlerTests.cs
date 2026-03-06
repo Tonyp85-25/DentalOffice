@@ -19,7 +19,8 @@ public class CreateDentalOfficeCommandBuilder
             Street = "street",
             Name = "",
             Number = string.Empty,
-            Zipcode = "11111"
+            Zipcode = "11111",
+            OpeningDays = 31
         };
     }
 
@@ -42,6 +43,7 @@ public class CreateDentalOfficeCommandHandlerTests
     private CreateDentalOfficeHandler _handler;
     private IIdProvider _idProvider;
     private CreateDentalOfficeCommandBuilder _builder;
+    private const int WorkingDays =31;
 
     [TestInitialize]
     public void Setup()
@@ -67,7 +69,7 @@ public class CreateDentalOfficeCommandHandlerTests
     public async Task Handle_WhenThereAreErrors_WeRollBack()
     {
         var address = Address.Create("", "street", "11111", "city");
-        var dentalOffice = DentalOffice.Create("Dental Office A", Guid.Empty, address);
+        var dentalOffice = DentalOffice.Create("Dental Office A", Guid.Empty, address,WorkingDays);
         await  _repository.Add(dentalOffice);
         _repository.MustThrows = true;
         var command = _builder.WithName("Dental Office B" ).Build();

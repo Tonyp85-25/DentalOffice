@@ -3,6 +3,7 @@ using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Domain.ValueObjects;
+using CleanTeeth.Tests.Fixtures;
 using CleanTeeth.Tests.Infrastructure;
 
 namespace CleanTeeth.Tests.Application.Features.DentalOffices;
@@ -12,19 +13,20 @@ public class DentalOfficeQueryTests
 {
     private IDentalOfficeRepository _repository;
     private GetDentalOfficeDetailQueryHandler _handler;
+    private DentalOfficeBuilder _builder;
 
     [TestInitialize]
     public void Setup()
     {
         _repository = new StubDentalOfficeRepository();
         _handler = new GetDentalOfficeDetailQueryHandler(_repository);
+        _builder = new DentalOfficeBuilder();
     }
 
     [TestMethod]
     public async Task Handle_DentalOfficeExists_ReturnsIt()
     {
-        var address = Address.Create("", "street", "11111", "city");
-        var dentalOffice = DentalOffice.Create("Dental Office A",Guid.Empty, address);
+        var dentalOffice = _builder.WithName("Dental Office A").Build();
         var id = dentalOffice.Id;
         await _repository.Add(dentalOffice);
         var query = new GetDentalOfficeDetailQuery { Id = id };
@@ -42,7 +44,7 @@ public class DentalOfficeQueryTests
     {
         var id = Guid.Empty;
         var query = new GetDentalOfficeDetailQuery { Id = id };
-        // what??? 
+     
         await _handler.Handle(query);
     }
     

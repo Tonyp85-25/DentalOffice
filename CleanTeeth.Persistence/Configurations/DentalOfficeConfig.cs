@@ -13,11 +13,18 @@ internal class DentalOfficeConfig :IEntityTypeConfiguration<DentalOffice>
             .HasMaxLength(150)
             .IsRequired();
         builder.Property(prop => prop.Address)
-            .HasConversion(a => a.ToString(),
+            .HasConversion(
+                a => a.ToString(),
                 a => Address.FromString(a)
             )
             .IsRequired()
             .HasMaxLength(200);
+        builder.Property(prop => prop.OpeningDays)
+            .HasConversion(
+                d => (int)d,
+                d => (Days)d)
+            .IsRequired()
+            ;
 
     }
 }

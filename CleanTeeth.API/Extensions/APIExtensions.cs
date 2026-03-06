@@ -36,7 +36,8 @@ internal static class APIExtensions
             Number = dto.Number,
             Street = dto.Street,
             Zipcode = dto.Zipcode,
-            City = dto.City
+            City = dto.City,
+            OpeningDays = dto.Days.Sum()
 
         };
     }

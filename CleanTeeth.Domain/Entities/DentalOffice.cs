@@ -9,13 +9,15 @@ public class DentalOffice
     public string Name { get; private set; } = null!;
     
     public required Address Address { get;  set; }
+    
+    public Days OpeningDays { get; private set; }
 
     private DentalOffice()
     {
       
     }
     
-    public static DentalOffice Create(string name, Guid id, Address address)
+    public static DentalOffice Create(string name, Guid id, Address address, int days)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -26,7 +28,8 @@ public class DentalOffice
         {
             Id = id,
             Name = name,
-            Address = address
+            Address = address,
+            OpeningDays = (Days) days,
         };
     }
 }

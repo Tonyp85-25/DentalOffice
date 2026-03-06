@@ -8,4 +8,9 @@ public class DentalOfficeRepository: Repository<DentalOffice>, IDentalOfficeRepo
     public DentalOfficeRepository(CleanTeethDbContext context) : base(context)
     {
     }
+
+    public Task<IEnumerable<DentalOffice>> GetAllBy(DentalOfficeCriteria criteria)
+    {
+        throw new NotImplementedException();
+    }
 }

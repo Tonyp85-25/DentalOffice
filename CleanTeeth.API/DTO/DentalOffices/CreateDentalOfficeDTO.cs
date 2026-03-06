@@ -23,6 +23,7 @@ public class CreateDentalOfficeDTO
     [StringLength(5)]
     public string? Number { get; set; }
     
-    
+    [Required]
+    public List<int> Days { get; set; }
     
 }

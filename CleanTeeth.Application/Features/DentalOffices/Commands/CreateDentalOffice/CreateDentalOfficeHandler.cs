@@ -29,7 +29,7 @@ public class CreateDentalOfficeHandler : IRequestHandler<CreateDentalOfficeComma
         try
         {
             var address = Address.Create(command.Number, command.Street, command.Zipcode, command.City);
-            var dentalOffice = DentalOffice.Create(command.Name,_idProvider.GetId(),address) ;
+            var dentalOffice = DentalOffice.Create(command.Name,_idProvider.GetId(),address, command.OpeningDays) ;
             var result = await _repository.Add(dentalOffice);
             await _unitOfWork.Commit();
             return result.Id;
