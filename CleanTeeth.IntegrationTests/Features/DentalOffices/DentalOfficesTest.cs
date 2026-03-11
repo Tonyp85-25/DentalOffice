@@ -11,14 +11,13 @@ namespace CleanTeeth.IntegrationTests.Features.DentalOffices;
 public sealed class DentalOfficesTest : BaseIntegrationTest
 {
     
-    private readonly HttpClient _client;
     private string _baseroute = "api/dentaloffices";
     
     private readonly DentalOfficeBuilder _builder;
 
     public DentalOfficesTest(TestContainersFixture fixture) : base(fixture)
     {
-       _client = _factory.CreateClient();
+       
        _builder = new DentalOfficeBuilder();
     }
 
@@ -38,10 +37,10 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
     {
         Guid id =Guid.NewGuid();
         var dentalOffice = _builder.WithGuid(id).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
-         DbContext.DentalOffices.Add(dentalOffice);
-        await DbContext.SaveChangesAsync(_token);
+         _dbContext.DentalOffices.Add(dentalOffice);
+        await _dbContext.SaveChangesAsync(_token);
         
-        var d= DbContext.DentalOffices.ToList();
+        var d= _dbContext.DentalOffices.ToList();
         var office = await _client.GetFromJsonAsync<DentalOfficeDetailDTO>($"{_baseroute}/{id}",_token);
             
         Assert.Equal("Office A", office?.Name);
@@ -58,8 +57,8 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
         var d2 = _builder.WithName("cityOffice B").WithAddress("3;street;11111;city").WithDays(62).Build();
         var d3 = _builder.WithName("Dental office A").WithAddress("4;street;11115;city2").WithDays(30).Build();
          
-        DbContext.DentalOffices.AddRange(d1, d2, d3);
-        await DbContext.SaveChangesAsync(_token);
+        _dbContext.DentalOffices.AddRange(d1, d2, d3);
+        await _dbContext.SaveChangesAsync(_token);
         
         var offices = await _client.GetFromJsonAsync<List<DentalOfficeListDTO>>($"{_baseroute}?name=cityOffice&city=city&days=62",_token);
 
