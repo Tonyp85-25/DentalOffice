@@ -1,7 +1,7 @@
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.ValueObjects;
-using CleanTeeth.Tests.Fixtures;
+using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.Tests.Infrastructure;
 
 namespace CleanTeeth.Tests.Application.Features.DentalOffices;
@@ -13,6 +13,7 @@ public class DentalOfficeSearchTest
     private GetDentalOfficeSearchQueryHandler _handler;
     private DentalOfficeBuilder _builder;
 
+    
 
     [TestInitialize]
     public void Setup()
@@ -72,6 +73,25 @@ public class DentalOfficeSearchTest
         await _repository.Add(dentalOffice2);
 
         var query = new GetDentalOfficeSearchQuery { City ="city2" };
+
+        var result = await _handler.Handle(query);
+        
+        Assert.AreEqual(1, result.Count);
+        Assert.AreEqual(true, result.Exists((e =>e.Name =="Dental Office B")));
+    }
+    
+    [TestMethod]
+    public async Task GetExistingDentalOfficebyOpeningDaysReturnResults()
+    {
+        var dentalOffice = _builder.WithName("Dental Office A").Build();
+     
+        var dentalOffice2 = _builder.WithName("Dental Office B").WithDays(62).Build();
+           
+        
+        await _repository.Add(dentalOffice);
+        await _repository.Add(dentalOffice2);
+
+        var query = new GetDentalOfficeSearchQuery { Days =32};
 
         var result = await _handler.Handle(query);
         

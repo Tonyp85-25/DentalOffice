@@ -10,6 +10,8 @@ public class GetDentalOfficeSearchQuery:IRequest<List<DentalOfficeListDTO>>
     
     public   string? City { get; init; }
     
+    public int? Days { get; init; }
+    
 }
 
 public class GetDentalOfficeSearchQueryHandler :IRequestHandler<GetDentalOfficeSearchQuery,List<DentalOfficeListDTO>>
@@ -24,7 +26,7 @@ public class GetDentalOfficeSearchQueryHandler :IRequestHandler<GetDentalOfficeS
 
     public  async Task<List<DentalOfficeListDTO>> Handle(GetDentalOfficeSearchQuery request)
     {
-        var criteria = new DentalOfficeCriteria(request.Name, request.Zipcode, request.City);
+        var criteria = new DentalOfficeCriteria(request.Name, request.Zipcode, request.City, request.Days);
         var list = await _repository.GetAllBy(criteria);
         var result = list.Select(d=>  new DentalOfficeListDTO
         {

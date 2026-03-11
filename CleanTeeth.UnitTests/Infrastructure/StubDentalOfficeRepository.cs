@@ -1,5 +1,6 @@
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Domain.Entities;
+using CleanTeeth.Domain.ValueObjects;
 
 namespace CleanTeeth.Tests.Infrastructure;
 
@@ -53,6 +54,14 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
         {
             result.AddRange(Data.FindAll((d => d.Address.City.Equals(criteria.City)))); 
         }
+
+        if (criteria.Days != null)
+        {
+            var days = (Days)criteria.Days;
+            var found = Data.FindAll((d => (d.OpeningDays & days) == days));
+            result.AddRange(found);
+
+        }
         
         return Task.FromResult<IEnumerable<DentalOffice>>(result);
     }
@@ -61,4 +70,5 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
     {
         throw new Exception();
     }
+    
 }

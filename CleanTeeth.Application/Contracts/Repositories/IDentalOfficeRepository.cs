@@ -3,7 +3,7 @@ using CleanTeeth.Domain.Entities;
 
 namespace CleanTeeth.Application.Contracts.Repositories;
 
-public record DentalOfficeCriteria(string? Name, string? Zipcode, string? City);
+public record DentalOfficeCriteria(string? Name, string? Zipcode, string? City, int? Days);
 public interface IDentalOfficeRepository :IRepository<DentalOffice>
 
 {

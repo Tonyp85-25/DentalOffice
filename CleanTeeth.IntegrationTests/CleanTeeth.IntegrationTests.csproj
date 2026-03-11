@@ -28,6 +28,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CleanTeeth.API\CleanTeeth.API.csproj" />
+      <ProjectReference Include="..\CleanTeeth.Fixtures\CleanTeeth.Fixtures.csproj" />
     </ItemGroup>
 
 </Project>

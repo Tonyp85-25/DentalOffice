@@ -1,7 +1,7 @@
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Domain.ValueObjects;
 
-namespace CleanTeeth.Tests.Fixtures;
+namespace CleanTeeth.Fixtures.Entities;
 
 public class DentalOfficeBuilder
 {
@@ -9,7 +9,7 @@ public class DentalOfficeBuilder
     private string _name = "Dental Office A";
     private Guid _guid = Guid.Empty;
     private Address _address = Address.FromString("2;rue du quai;11111;Uneville");
-    private int _days = 31;
+    private int _days = 30;
 
     public DentalOffice Build()
     {
@@ -29,6 +29,12 @@ public class DentalOfficeBuilder
     public DentalOfficeBuilder WithAddress(string address)
     {
         _address = Address.FromString(address);
+        return this;
+    }
+    
+    public DentalOfficeBuilder WithDays(int days)
+    {
+        _days = days;
         return this;
     }
 }

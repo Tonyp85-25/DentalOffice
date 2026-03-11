@@ -2,7 +2,7 @@ using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Domain.ValueObjects;
-using CleanTeeth.Tests.Fixtures;
+using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.Tests.Infrastructure;
 
 namespace CleanTeeth.Tests.Application.Features.DentalOffices;
