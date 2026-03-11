@@ -1,5 +1,4 @@
-using System.Data.Common;
-using CleanTeeth.Persistence;
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +9,7 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
 {
     private readonly string _dbConnectionString;
 
-    public TestWebApplicationFactory( string dbConnectionString)
+    public TestWebApplicationFactory(string dbConnectionString)
     {
         _dbConnectionString = dbConnectionString;
     }

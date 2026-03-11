@@ -2,27 +2,24 @@
 using System.Net;
 using CleanTeeth.API.DTO.DentalOffices;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
-using CleanTeeth.Domain.Entities;
-using CleanTeeth.Domain.ValueObjects;
+using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.IntegrationTests.Fixtures;
-using CleanTeeth.Persistence;
 
 namespace CleanTeeth.IntegrationTests.Features.DentalOffices;
 
 [Collection(nameof(IntegrationTestCollection))]
-public sealed class DentalOfficesTest : IClassFixture<TestContainersFixture>, IAsyncLifetime
+public sealed class DentalOfficesTest : BaseIntegrationTest
 {
-    private readonly TestWebApplicationFactory _factory;
+    
     private readonly HttpClient _client;
     private string _baseroute = "api/dentaloffices";
-    private  CleanTeethDbContext _dbContext;
-    private CancellationToken _token;
+    
+    private readonly DentalOfficeBuilder _builder;
 
-    public DentalOfficesTest(TestContainersFixture fixture)
+    public DentalOfficesTest(TestContainersFixture fixture) : base(fixture)
     {
-        _factory = new TestWebApplicationFactory(fixture.SqlConnectionString);
        _client = _factory.CreateClient();
-       _token = TestContext.Current.CancellationToken;
+       _builder = new DentalOfficeBuilder();
     }
 
     [Fact]
@@ -40,11 +37,11 @@ public sealed class DentalOfficesTest : IClassFixture<TestContainersFixture>, IA
     public async Task ShouldReadDentalOffice()
     {
         Guid id =Guid.NewGuid();
-        var address = Address.Create("1", "street", "11111", "city");
-         _dbContext.DentalOffices.Add(DentalOffice.Create("Office A", id,address,62 ));
-        await _dbContext.SaveChangesAsync(_token);
+        var dentalOffice = _builder.WithGuid(id).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
+         DbContext.DentalOffices.Add(dentalOffice);
+        await DbContext.SaveChangesAsync(_token);
         
-        var d= _dbContext.DentalOffices.ToList();
+        var d= DbContext.DentalOffices.ToList();
         var office = await _client.GetFromJsonAsync<DentalOfficeDetailDTO>($"{_baseroute}/{id}",_token);
             
         Assert.Equal("Office A", office?.Name);
@@ -53,21 +50,24 @@ public sealed class DentalOfficesTest : IClassFixture<TestContainersFixture>, IA
         Assert.Equal("city", office.City);
         Assert.Equal("1", office.Number);
     }
+
+    [Fact]
+    public async Task ShouldReturnRequestedDentalOffices()
+    {
+        var d1 = _builder.WithName("cityOffice A").WithAddress("1;street;11111;city").WithDays(62).Build();
+        var d2 = _builder.WithName("cityOffice B").WithAddress("3;street;11111;city").WithDays(62).Build();
+        var d3 = _builder.WithName("Dental office A").WithAddress("4;street;11115;city2").WithDays(30).Build();
+         
+        DbContext.DentalOffices.AddRange(d1, d2, d3);
+        await DbContext.SaveChangesAsync(_token);
+        
+        var offices = await _client.GetFromJsonAsync<List<DentalOfficeListDTO>>($"{_baseroute}?name=cityOffice&city=city&days=62",_token);
+
+        Assert.Equal(2, offices.Count);
+        Assert.True(offices.All(o=>o.Name.Contains("cityOffice")));
+       
+    }
     
 
-    public async ValueTask DisposeAsync()
-    {
-        await _dbContext.DisposeAsync();
-        await _factory.DisposeAsync();
-       
-
-    }
-
-    public async ValueTask InitializeAsync()
-    {
-        // await using AsyncServiceScope scope = _factory.Services.CreateAsyncScope();
-       _dbContext = _factory.Services.GetService<CleanTeethDbContext>()!;
-        _dbContext?.Database.EnsureCreated();
-      
-    }
+ 
 }

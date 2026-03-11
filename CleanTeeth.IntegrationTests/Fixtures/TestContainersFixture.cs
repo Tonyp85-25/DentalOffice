@@ -1,4 +1,4 @@
-using DotNet.Testcontainers.Builders;
+
 using Testcontainers.MsSql;
 
 namespace CleanTeeth.IntegrationTests.Fixtures;
