@@ -1,16 +1,20 @@
 using System.Net;
 using System.Text.Json;
 using CleanTeeth.Application.Exceptions;
+using CleanTeeth.Domain.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanTeeth.API.Middlewares;
 
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ErrorHandlingMiddleware> _logger;
 
-    public ErrorHandlingMiddleware(RequestDelegate next)
+    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger, IProblemDetailsService problemDetails)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
@@ -25,31 +29,62 @@ public class ErrorHandlingMiddleware
         }
     }
 
-    private Task HandleException(HttpContext context, Exception exception)
+    private async Task HandleException(HttpContext context, Exception exception)
     {
-        HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
+        
+        _logger.LogError(exception, "Unhandled exception. TraceId: {TraceId}", context.TraceIdentifier);
+        
 
         context.Response.ContentType = "application/json";
-        var result = string.Empty;
+        var result = new ProblemDetails
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Server error",
+            Type = exception.GetType().Name,
+            Detail = context.RequestServices
+                .GetRequiredService<IHostEnvironment>()
+                .IsDevelopment()
+                ? exception.Message
+                : null,
+            Instance = context.Request.Path
+        };
 
         switch (exception)
         {
             case NotFoundException:
-                statusCode = HttpStatusCode.NotFound;
+                result.Status =StatusCodes.Status404NotFound;
+                result.Title = "Resource Not Found";
                 break;
             case CustomValidationException customValidationException:
-                statusCode = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize(customValidationException.ValidationErrors);
+                
+                result = new ValidationProblemDetails
+                {
+                    Status = StatusCodes.Status400BadRequest,
+                    Title = "Invalid request",
+                    Detail = customValidationException.Message,
+                    Instance = context.Request.Path,
+                    Errors = customValidationException.ToDictionary()
+                };
+                
+                break;
+            case BusinessRuleException businessRuleException:
+                result.Status = StatusCodes.Status400BadRequest;
+                result.Title = "Invalid request";
+                result.Detail = businessRuleException.Message;
                 break;
             case AlreadyExistsException:
-                statusCode = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize("Data already exists");
+               result.Status = StatusCodes.Status409Conflict;
+               result.Title = "Resource already exists";
                 break;
         }
+        context.Response.StatusCode = result.Status ?? StatusCodes.Status500InternalServerError;
+        result.Extensions["traceId"] = context.TraceIdentifier;
+        result.Extensions["timestamp"] = DateTime.UtcNow;
 
-        context.Response.StatusCode = (int)statusCode;
-        return context.Response.WriteAsync(result);
+        await context.Response.WriteAsJsonAsync(result);
     }
+    
+ 
     
 }
 
