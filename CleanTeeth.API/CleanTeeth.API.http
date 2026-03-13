@@ -10,6 +10,7 @@ Content-Type: application/json
     "name": "Dental Office B",
     "street": "street",
     "zipcode": "11111",
-    "city": "city"
+    "city": "city",
+  "days": [2,4,8,16]
 } 
 ###

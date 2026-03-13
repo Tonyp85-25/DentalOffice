@@ -5,26 +5,22 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanTeeth.Persistence.Configurations;
 
-internal class DentalOfficeConfig :IEntityTypeConfiguration<DentalOffice>
+internal class DentalOfficeConfig : IEntityTypeConfiguration<DentalOffice>
 {
     public void Configure(EntityTypeBuilder<DentalOffice> builder)
     {
         builder.Property(prop => prop.Name)
             .HasMaxLength(150)
             .IsRequired();
-        builder.Property(prop => prop.Address)
-            .HasConversion(
-                a => a.ToString(),
-                a => Address.FromString(a)
-            )
-            .IsRequired()
-            .HasMaxLength(200);
+        builder.OwnsOne(
+                d => d.Address,
+                navigationBuilder => { navigationBuilder.ToJson(); }
+            );
         builder.Property(prop => prop.OpeningDays)
             .HasConversion(
                 d => (int)d,
                 d => (Days)d)
             .IsRequired()
             ;
-
     }
 }

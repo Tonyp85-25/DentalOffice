@@ -33,61 +33,61 @@ public class CreateDentistCommandValidator : AbstractValidator<CreateDentistComm
 }
 
 
-public class CreateDentistCommandHandler : IRequestHandler<CreateDentistCommand, Guid>
-{
-    private readonly IIdProvider _idProvider;
-    private readonly IDentalOfficeRepository _dentalOfficeRepository;
-    private readonly IDentistRepository _dentistRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateDentistCommandHandler(IIdProvider idProvider,IDentalOfficeRepository dentalOfficeRepository, IDentistRepository dentistRepository, IUnitOfWork unitOfWork)
-    {
-        _idProvider = idProvider;
-        _dentalOfficeRepository = dentalOfficeRepository;
-        _dentistRepository = dentistRepository;
-        _unitOfWork = unitOfWork;
-    }
-
-    public async Task<Guid> Handle(CreateDentistCommand request)
-    {
-        List<DentalOffice> dentalOffices = new();
-        if (request.Offices.Count > 0)
-        {
-            foreach (var id in request.Offices)
-            {
-               var office = await _dentalOfficeRepository.GetById(id);
-               dentalOffices.Add(office);
-            }
-        }
-        bool exists = await _dentistRepository.Exists(request.Email);
-        if (exists)
-        {
-            throw new AlreadyExistsException();
-        }
-
-        var dentist = new Dentist
-        {
-            Id = _idProvider.GetId(),
-            LastName = request.LastName,
-            FirstName = request.FirstName,
-            Email = new Email(request.Email),
-        };
-
-        foreach (var office in dentalOffices)
-        {
-            dentist.AddDentalOffice(office);
-        }
-
-        try
-        {
-            var result = await _dentistRepository.Add(dentist);
-            await _unitOfWork.Commit();
-            return result.Id;
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.Rollback();
-            throw;
-        }
-    }
-}
+// public class CreateDentistCommandHandler : IRequestHandler<CreateDentistCommand, Guid>
+// {
+//     private readonly IIdProvider _idProvider;
+//     private readonly IDentalOfficeRepository _dentalOfficeRepository;
+//     private readonly IDentistRepository _dentistRepository;
+//     private readonly IUnitOfWork _unitOfWork;
+//
+//     public CreateDentistCommandHandler(IIdProvider idProvider,IDentalOfficeRepository dentalOfficeRepository, IDentistRepository dentistRepository, IUnitOfWork unitOfWork)
+//     {
+//         _idProvider = idProvider;
+//         _dentalOfficeRepository = dentalOfficeRepository;
+//         _dentistRepository = dentistRepository;
+//         _unitOfWork = unitOfWork;
+//     }
+//
+//     public async Task<Guid> Handle(CreateDentistCommand request)
+//     {
+//         List<DentalOffice> dentalOffices = new();
+//         if (request.Offices.Count > 0)
+//         {
+//             foreach (var id in request.Offices)
+//             {
+//                var office = await _dentalOfficeRepository.GetById(id);
+//                dentalOffices.Add(office);
+//             }
+//         }
+//         bool exists = await _dentistRepository.Exists(request.Email);
+//         if (exists)
+//         {
+//             throw new AlreadyExistsException();
+//         }
+//
+//         var dentist = new Dentist
+//         {
+//             Id = _idProvider.GetId(),
+//             LastName = request.LastName,
+//             FirstName = request.FirstName,
+//             Email = new Email(request.Email),
+//         };
+//
+//         foreach (var office in dentalOffices)
+//         {
+//             dentist.AddDentalOffice(office);
+//         }
+//
+//         try
+//         {
+//             var result = await _dentistRepository.Add(dentist);
+//             await _unitOfWork.Commit();
+//             return result.Id;
+//         }
+//         catch (Exception e)
+//         {
+//             await _unitOfWork.Rollback();
+//             throw;
+//         }
+//     }
+// }

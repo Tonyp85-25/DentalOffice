@@ -5,7 +5,7 @@ namespace CleanTeeth.Persistence.Repositories;
 
 public class Repository<T> : IRepository<T> where T :class
 {
-    private readonly CleanTeethDbContext _context;
+    protected readonly CleanTeethDbContext _context;
 
     public Repository(CleanTeethDbContext context)
     {

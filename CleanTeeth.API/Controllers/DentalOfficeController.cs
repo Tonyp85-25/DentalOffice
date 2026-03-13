@@ -35,12 +35,25 @@ public class DentalOfficeController : ControllerBase
         return Created(location, result);
     }
 
-    [HttpGet]
+    [HttpGet()]
     public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAll()
     {
         var query = new GetDentalOfficeListQuery();
         List<DentalOfficeListDTO> result = await _mediator.Send(query);
         return result;
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAllBy([FromQuery] SearchDentalOfficeDTO dto)
+    {
+        if (dto.IsEmpty())
+        {
+            return BadRequest();
+        }
+
+        var query = dto.ToQuery();
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
     
 }

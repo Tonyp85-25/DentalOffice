@@ -1,33 +1,11 @@
 using CleanTeeth.API.DTO.DentalOffices;
-using CleanTeeth.API.DTO.Dentists;
 using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
-using CleanTeeth.Application.Features.Dentists.Command.CreateDentist;
+using CleanTeeth.Application.Features.DentalOffices.Queries;
 
 namespace CleanTeeth.API.Extensions;
 
 internal static class APIExtensions
 {
-    public static CreateDentistCommand FromDto(this CreateDentistCommand command, CreateDentistDTO dto)
-    {
-        List<Guid> offices = new();
-        foreach (var office in dto.Offices)
-        {
-            if (Guid.TryParse(office,out Guid value))
-            {
-                offices.Add(value);
-            }
-        }
-
-        
-        return new CreateDentistCommand
-        {
-            Email = dto.Email,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            Offices = offices
-        };
-    }
-
     public static CreateDentalOfficeCommand ToCommand(this CreateDentalOfficeDTO dto)
     {
         return new CreateDentalOfficeCommand
@@ -39,6 +17,17 @@ internal static class APIExtensions
             City = dto.City,
             OpeningDays = dto.Days.Sum()
 
+        };
+    }
+
+    public static GetDentalOfficeSearchQuery ToQuery(this  SearchDentalOfficeDTO dto)
+    {
+        return new GetDentalOfficeSearchQuery
+        {
+            City = dto.City,
+            Name = dto.Name,
+            Zipcode = dto.Zipcode,
+            Days = !dto.Days.Any() ? null: dto.Days.Sum(),
         };
     }
 }
