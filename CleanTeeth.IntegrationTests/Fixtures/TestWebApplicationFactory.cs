@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace CleanTeeth.IntegrationTests.Fixtures;
@@ -17,7 +16,6 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("testing");
-        // base.ConfigureWebHost(builder);
         builder.UseSetting("ConnectionStrings:CleanTeethConnectionString", _dbConnectionString);
         builder.ConfigureAppConfiguration((context, config) =>
         {

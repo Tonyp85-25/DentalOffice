@@ -1,14 +1,18 @@
 using CleanTeeth.API.Middlewares;
 using CleanTeeth.Application;
 using CleanTeeth.Persistence;
+using Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
-builder.Services.AddPersistenceServices(builder.Configuration);
+
+var connectionString = builder.Configuration.GetDBString();
+builder.Services.AddPersistenceServices(connectionString);
 builder.Services.AddApplicationServices();
+builder.Services.AddSecurityServices(connectionString);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
