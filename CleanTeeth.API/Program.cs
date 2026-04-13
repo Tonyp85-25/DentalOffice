@@ -2,6 +2,7 @@ using CleanTeeth.API.Middlewares;
 using CleanTeeth.Application;
 using CleanTeeth.Persistence;
 using Security;
+using Security.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,19 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetDBString();
+var connectionString = builder.Configuration.GetAppDBString();
+builder.Services.AddSecurityServices(connectionString);
 builder.Services.AddPersistenceServices(connectionString);
 builder.Services.AddApplicationServices();
-builder.Services.AddSecurityServices(connectionString);
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
 var app = builder.Build();
 
+app.MapIdentityApi<User>();
 
 app.UseCustomExceptionHandler();
 // Configure the HTTP request pipeline.
@@ -36,6 +38,15 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (!app.Environment.IsEnvironment("testing"))
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        await IdentitySeeder.SeedRolesAsync(scope.ServiceProvider);
+    }
+}
+
 
 app.Run();
 

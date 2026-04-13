@@ -13,7 +13,7 @@ public sealed class TestContainersFixture :IAsyncLifetime
         
         _sqlContainer = new MsSqlBuilder("mcr.microsoft.com/mssql/server:2022-latest")
             .Build();
-        await _sqlContainer.StartAsync();
+        await _sqlContainer.StartAsync().ConfigureAwait(false);
         SqlConnectionString = _sqlContainer.GetConnectionString();
       
     }

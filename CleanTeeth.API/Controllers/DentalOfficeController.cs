@@ -3,6 +3,7 @@ using CleanTeeth.API.Extensions;
 using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanTeeth.API.Controllers;
@@ -19,6 +20,7 @@ public class DentalOfficeController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<DentalOfficeDetailDTO>> Get(Guid id)
     {
         var query = new GetDentalOfficeDetailQuery { Id = id };
@@ -27,6 +29,7 @@ public class DentalOfficeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Policy = "RequiresAdmin")]
     public async Task<IActionResult> Post(CreateDentalOfficeDTO createDentalOfficeDto)
     {
         var command = createDentalOfficeDto.ToCommand();
@@ -36,6 +39,7 @@ public class DentalOfficeController : ControllerBase
     }
 
     [HttpGet()]
+    [Authorize(Policy = "RequiresAdmin")]
     public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAll()
     {
         var query = new GetDentalOfficeListQuery();
@@ -44,6 +48,7 @@ public class DentalOfficeController : ControllerBase
     }
 
     [HttpGet("search")]
+    [Authorize]
     public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAllBy([FromQuery] SearchDentalOfficeDTO dto)
     {
         if (dto.IsEmpty())

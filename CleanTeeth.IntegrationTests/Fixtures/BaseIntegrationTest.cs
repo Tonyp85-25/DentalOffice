@@ -1,54 +1,75 @@
 using System.Data.Common;
+using CleanTeeth.IntegrationTests.Services;
 using CleanTeeth.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+
 using Respawn;
+using Security.Models;
+
 
 namespace CleanTeeth.IntegrationTests.Fixtures;
 
-public abstract class BaseIntegrationTest :  IClassFixture<TestContainersFixture>,
-    IAsyncDisposable
-{
-    private readonly IServiceScope _scope;
-    protected readonly CleanTeethDbContext _dbContext;
-    protected readonly TestWebApplicationFactory _factory;
-    protected CancellationToken _token;
-    protected readonly HttpClient _client;
-    private readonly string _connectionString;
 
+public abstract class BaseIntegrationTest 
+
+{
+    protected IServiceScope _scope;
+    protected CleanTeethDbContext _dbContext;
+    protected TestWebApplicationFactory _factory;
+    protected CancellationToken _token;
+    protected HttpClient _client;
+    protected string _connectionString;
+    protected UserManager<User> _userManager;
+    
     protected BaseIntegrationTest(TestContainersFixture fixture)
     {
         _connectionString = fixture.SqlConnectionString;
-        _factory = new TestWebApplicationFactory(fixture.SqlConnectionString);
-        _client = _factory.CreateClient();
+        _factory = new TestWebApplicationFactory(_connectionString);
         _scope = _factory.Services.CreateScope();
         _token = TestContext.Current.CancellationToken;
+        
+    }
+    
+   
+
+    protected async Task SeedDb()
+    {
+        await _factory.EnsureDatabaseCreated(_scope, _token);
         _dbContext = _scope.ServiceProvider
             .GetRequiredService<CleanTeethDbContext>();
-        _dbContext.Database.EnsureCreated();
+        _userManager = _scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        _client = _factory.CreateClient();
+       
     }
 
-    
-    public async ValueTask DisposeAsync()
+    protected async Task ResetDb()
     {
-        await ResetDb();   
-        await _factory.DisposeAsync();
-        _scope?.Dispose();
-         _dbContext?.Dispose();
-    }
-
-    private async Task ResetDb()
-    {
-        var conn = new SqlConnection(_connectionString)  ;
-
-        await conn.OpenAsync();
+        var stringBuilder = new SqlConnectionStringBuilder(_connectionString);
+        stringBuilder.InitialCatalog = "test";
+        var connection = new SqlConnection(stringBuilder.ConnectionString);
+        
+        await connection.OpenAsync();
         var respawner = await Respawner.CreateAsync(
-            conn,
+            connection,
             new RespawnerOptions { SchemasToInclude = ["dbo"]}
         );
-        await respawner.ResetAsync(conn);
-        conn.Dispose();
+        await respawner.ResetAsync(connection);
+        connection.Dispose();
+    }
+
+    protected async Task DisposeAll()
+    {
+        _scope.Dispose();
+        await ResetDb();   
+        await _dbContext.DisposeAsync();
+        await _factory.DisposeAsync();
+    }
+
+    protected void Login(string userName,AppRoles role)
+    {
+        _client.DefaultRequestHeaders.Add(TestAuthHandler.TestUserIdHeader, userName);
+        _client.DefaultRequestHeaders.Add(TestAuthHandler.TestUserRoleHeader, role.ToString());
     }
     
 }

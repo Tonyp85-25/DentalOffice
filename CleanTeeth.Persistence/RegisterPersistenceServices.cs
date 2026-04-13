@@ -29,7 +29,7 @@ public static class RegisterPersistenceServices
 
     
 
-    public static string GetDBString( this IConfiguration config)
+    public static string GetAppDBString( this IConfiguration config)
     {
         var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
         if (string.IsNullOrEmpty(strBuilder.InitialCatalog))

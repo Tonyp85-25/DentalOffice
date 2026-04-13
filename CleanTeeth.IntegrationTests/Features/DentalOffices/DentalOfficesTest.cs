@@ -1,25 +1,34 @@
 
 using System.Net;
-using CleanTeeth.API.DTO.DentalOffices;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.IntegrationTests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
+using Security.Models;
 
 namespace CleanTeeth.IntegrationTests.Features.DentalOffices;
 
-[Collection(nameof(IntegrationTestCollection))]
-public sealed class DentalOfficesTest : BaseIntegrationTest
+
+public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestContainersFixture>, IAsyncLifetime
 {
     
-    private string _baseroute = "api/dentaloffices";
+    private readonly string _baseroute = "api/dentaloffices";
     
-    private readonly DentalOfficeBuilder _builder;
+    private readonly DentalOfficeBuilder _builder = new();
 
     public DentalOfficesTest(TestContainersFixture fixture) : base(fixture)
     {
        
-       _builder = new DentalOfficeBuilder();
+    }
+    
+    public async ValueTask InitializeAsync()
+    {
+        await SeedDb();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await DisposeAll();
     }
 
     [Fact]
@@ -27,10 +36,28 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
     {
         var dentalOffice = new 
             { Name = "Test", Street = "street",Zipcode = "11111", City = "city", Number = "1",Days = new List<int>{2,4,8,16}};
+        
+        
         var content = JsonContent.Create(dentalOffice);
+        var admin =await _userManager.FindByEmailAsync("admin@test.com");
+        Login(admin!.Id,AppRoles.Admin);
         var response = await _client.PostAsync($"{_baseroute}", content,_token );
         
         Assert.Equal(HttpStatusCode.Created,response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task OnlyAdminShouldCreateDentalOffice()
+    {
+        var dentalOffice = new 
+            { Name = "Test", Street = "street",Zipcode = "11111", City = "city", Number = "1",Days = new List<int>{2,4,8,16}};
+        var content = JsonContent.Create(dentalOffice);
+        var employee =await _userManager.FindByEmailAsync("employee@test.com");
+        
+        Login(employee.Id,AppRoles.Employee);
+        var response = await _client.PostAsync($"{_baseroute}", content,_token );
+        
+        Assert.Equal(HttpStatusCode.Forbidden,response.StatusCode);
     }
     
     [Fact]
@@ -39,6 +66,8 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
         var dentalOffice = new 
             { Street = "street",Zipcode = "111", City = "city", Number = "1"};
         var content = JsonContent.Create(dentalOffice);
+        var admin =await _userManager.FindByEmailAsync("admin@test.com");
+        Login(admin.Id,AppRoles.Admin);
         var response = await _client.PostAsync($"{_baseroute}", content,_token );
         var result = await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(_token);
         
@@ -56,7 +85,9 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
         var dentalOffice = _builder.WithGuid(id).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
          _dbContext.DentalOffices.Add(dentalOffice);
         await _dbContext.SaveChangesAsync(_token);
+        var employee =await _userManager.FindByEmailAsync("employee@test.com");
         
+        Login(employee.Id,AppRoles.Employee);
         var office = await _client.GetFromJsonAsync<DentalOfficeDetailDTO>($"{_baseroute}/{id}",_token);
             
         Assert.Equal("Office A", office?.Name);
@@ -73,7 +104,9 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
         var dentalOffice = _builder.WithGuid(Guid.NewGuid()).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
         _dbContext.DentalOffices.Add(dentalOffice);
         await _dbContext.SaveChangesAsync(_token);
+        var employee =await _userManager.FindByEmailAsync("employee@test.com");
         
+        Login(employee.Id,AppRoles.Employee);
         var response = await _client.GetAsync($"{_baseroute}/{id}",_token);
         
         Assert.Equal(HttpStatusCode.NotFound,response.StatusCode);
@@ -89,6 +122,9 @@ public sealed class DentalOfficesTest : BaseIntegrationTest
         _dbContext.DentalOffices.AddRange(d1, d2, d3);
         await _dbContext.SaveChangesAsync(_token);
         
+        var employee =await _userManager.FindByEmailAsync("employee@test.com");
+        
+        Login(employee.Id,AppRoles.Employee);
         var offices = await _client.GetFromJsonAsync<List<DentalOfficeListDTO>>($"{_baseroute}/search?name=cityOffice&city=city&days=2&days=4&days=8",_token);
 
         Assert.Equal(2, offices.Count);

@@ -8,16 +8,34 @@ namespace Security;
 
 public static class RegisterSecurityServices
 {
+    
     public static void AddSecurityServices(this IServiceCollection services, string connectionString)
     {
         services.AddAuthentication(IdentityConstants.BearerScheme).AddBearerToken(IdentityConstants.BearerScheme);
         
-        services.AddAuthorization();
         services.AddDbContext<SecurityDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        services.AddIdentityCore<User>()
+     
+        services.AddAuthorization(
+            options=>
+            {
+                options.AddPolicy("RequiresAdmin", policy =>
+                {
+                    policy.RequireRole(nameof(AppRoles.Admin));
+                });
+                options.AddPolicy("RequiresEmployee", policy =>
+                {
+                    policy.RequireRole(nameof(AppRoles.Employee));
+                });
+            });
+        
+        services.AddIdentity<User, IdentityRole>()
             .AddEntityFrameworkStores<SecurityDbContext>()
             .AddApiEndpoints();
+        
+        
+        
     }
+    
 }
