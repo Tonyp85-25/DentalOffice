@@ -37,15 +37,7 @@
   &lt;Project Location="/home/tony/extradrive/Sources/cleanTeeth" Presentation="&amp;lt;Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5f0b47c1_002D0283_002D4674_002Da78c_002D6dcd6b7ccfd3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DentalOfficesListTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.DentalOffices.DentalOfficesListTest&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.Dentists.CreateDentistCommandHandlerTests&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::2E375E3F-329C-4226-B791-A58DF5D7A2ED::net8.0::CleanTeeth.IntegrationTests.Features.DentalOffices.DentalOfficesTest&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Domain.ValueObjects.AddressTests.Bad_Address_Throws&lt;/TestId&gt;
-    &lt;TestId&gt;MSTest::8B29528E-4C4D-4C2A-9BFD-4198D5FFA502::net8.0::CleanTeeth.Tests.Application.Features.DentalOffices.CreateDentalOfficeCommandHandlerTests.Handle_ValidCommand_ReturnsDentalOfficeId&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::D023A627-5AA8-4994-88C1-C5183C033731::net8.0::CleanTeeth.ArchiTests.ArchitectureTests.TypesShouldBeInCorrectLayer&lt;/TestId&gt;
-    &lt;TestId&gt;xUnit::D023A627-5AA8-4994-88C1-C5183C033731::net8.0::CleanTeeth.ArchiTests.ArchitectureTests&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+  &lt;Project Location="/home/tony/extradrive/Sources/cleanTeeth" Presentation="&amp;lt;Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestRunner/EnvironmentVariablesIndexed/=DOCKER_005FHOST/@EntryIndexedValue">unix:///run/user/1000/docker.sock</s:String>
