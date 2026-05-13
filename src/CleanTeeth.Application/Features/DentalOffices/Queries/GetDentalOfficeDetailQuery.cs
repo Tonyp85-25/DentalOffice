@@ -18,4 +18,8 @@ public class DentalOfficeDetailDTO
     public required string City { get; set; }
     public required string? Number { get; set; }
     
+    public required string? AdditionalInfos { get; set; }
+    
+    public required int OpeningDays { get; set; }
+    
 }

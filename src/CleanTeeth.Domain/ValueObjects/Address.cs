@@ -77,4 +77,14 @@ public record Address
         var expr = address.Split(';');
         return Address.Create(expr[0], expr[1], expr[2], expr[3]);
     }
+    
+    public Address UpdateAddress(string? number, string? street, string? zipcode, string? city, string? additional=null)
+    {
+        number = number ?? this.Number;
+        street = street ?? this.Street;
+        zipcode = zipcode ?? this.Zipcode;
+        city = city ?? this.City;
+        additional = additional ?? this.AdditionalInfos;
+        return Create(number, street, zipcode, city, additional);
+    }
 }

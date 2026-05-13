@@ -60,5 +60,14 @@ public class DentalOfficeController : ControllerBase
         var result = await _mediator.Send(query);
         return Ok(result);
     }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<DentalOfficeDetailDTO>> Edit(Guid id, UpdateDentalOfficeRequest request)
+    {
+        var command = request.ToCommand();
+        var result = await _mediator.Send(command);
+        return result;
+    }
     
 }

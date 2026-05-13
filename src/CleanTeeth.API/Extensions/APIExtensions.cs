@@ -1,4 +1,5 @@
 using CleanTeeth.API.DTO.DentalOffices;
+using CleanTeeth.Application.Features.DentalOffices.Commands;
 using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 
@@ -28,6 +29,19 @@ internal static class APIExtensions
             Name = dto.Name,
             Zipcode = dto.Zipcode,
             Days = !dto.Days.Any() ? null: dto.Days.Sum(),
+        };
+    }
+
+    public static UpdateDentalOfficeCommand ToCommand(this UpdateDentalOfficeRequest dto)
+    {
+        return new UpdateDentalOfficeCommand
+        {
+            Name = dto.Name,
+            Number = dto.Number,
+            Street = dto.Street,
+            Zipcode = dto.Zipcode,
+            City = dto.City,
+            OpeningDays = dto.OpeningDays
         };
     }
 }

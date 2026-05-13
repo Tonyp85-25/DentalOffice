@@ -1,5 +1,6 @@
 
 using System.Net;
+using CleanTeeth.API.DTO.DentalOffices;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.IntegrationTests.Fixtures;
@@ -132,6 +133,32 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
        
     }
     
+    [Fact]
+    public async Task AttachedEmployeeShouldUpdateDentalOffice()
+    {
+        var d1 = _builder.WithName("cityOffice A").WithAddress("1;street;11111;city").WithDays(62).Build();
+        _dbContext.DentalOffices.Add(d1);
+        await _dbContext.SaveChangesAsync(_token);
+        
+        var employee =await _userManager.FindByEmailAsync("employee@test.com");
+        
+        Login(employee.Id,AppRoles.Employee);
+        var request = new UpdateDentalOfficeRequest
+        {
+            Name = "cityOffice A+",
+            Number = "2B",
+            Street = "street1",
+            Zipcode = "11111",
+            City = "city",
+            OpeningDays = 64
+        };
+        var content = JsonContent.Create(request);
+        var response = await _client.PutAsync($"{_baseroute}/{d1.Id}",content,_token );
+        
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+    
 
  
 }
+

@@ -15,7 +15,9 @@ internal static class MapperExtensions
             Street = dentalOffice.Address.Street,
             Zipcode = dentalOffice.Address.Zipcode,
             City = dentalOffice.Address.City,
-            Number = dentalOffice.Address.Number
+            Number = dentalOffice.Address.Number,
+            AdditionalInfos = dentalOffice.Address.AdditionalInfos,
+            OpeningDays = (int)dentalOffice.OpeningDays
         };
         return dto;
     }

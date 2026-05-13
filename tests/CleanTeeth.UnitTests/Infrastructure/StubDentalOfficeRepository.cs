@@ -30,13 +30,11 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
 
     public Task Update(DentalOffice entity)
     {
-        throw new NotImplementedException();
+        var index =Data.FindIndex(d => d.Id == entity.Id);
+        Data[index] = entity;
+        return Task.CompletedTask;
     }
-
-    public Task Delete(DentalOffice entity)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public Task<IEnumerable<DentalOffice>> GetAllBy(DentalOfficeCriteria criteria)
     {
