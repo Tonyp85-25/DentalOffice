@@ -25,8 +25,13 @@ public class SimpleMediator: IMediator
             throw new MediatorException($"Handler was not found for {request.GetType().Name}");
         }
 
-        var method = handlerType.GetMethod("Handle");
-        return await (Task<TResponse>)method.Invoke(handler, new object[] { request });
+        var method = handlerType.GetMethod("Handle")!; // Handler is null checked above
+        var response = method.Invoke(handler, new object[] { request });
+        if (response is null)
+        {
+            throw new MediatorException($"Response was null for {request.GetType().Name}");
+        }
+        return await (Task<TResponse>)response;
 
     }
 
@@ -42,9 +47,14 @@ public class SimpleMediator: IMediator
             throw new MediatorException($"Handler was not found for {request.GetType().Name}");
         }
 
-        var method = handlerType.GetMethod("Handle");
-        await (Task)method.Invoke(handler, new object[] { request });
-        
+        var method = handlerType.GetMethod("Handle")!;
+        var response = method.Invoke(handler, new object[] { request });
+        if (response is null)
+        {
+            throw new MediatorException($"Response was null for {request.GetType().Name}");
+        }
+        await (Task)response;
+
     }
 
     private async Task ApplyValidations(object request)
@@ -53,12 +63,23 @@ public class SimpleMediator: IMediator
         var validator = _serviceProvider.GetService(validatorType);
         if (validator is not null)
         {
-            var validateMethod = validatorType.GetMethod("ValidateAsync");
+            var validateMethod = validatorType.GetMethod("ValidateAsync")!; // Validator is null checked above
+
             var taskToValidate =
                 (Task)validateMethod.Invoke(validator, new object[] { request, CancellationToken.None })!;
             await taskToValidate;
-            var result = taskToValidate.GetType().GetProperty("Result");
-            var validationResult = (ValidationResult)result.GetValue(taskToValidate);
+            var resultProperty = taskToValidate.GetType().GetProperty("Result");
+            if (resultProperty is null)
+            {
+                throw new MediatorException($"Result property was not found for {request.GetType().Name}");
+            }
+
+            var result = resultProperty.GetValue(taskToValidate);
+            if (result is null)
+            {
+                throw new MediatorException($"Result was null for {request.GetType().Name}");
+            }
+            var validationResult = (ValidationResult)result;
 
             if (!validationResult.IsValid)
             {

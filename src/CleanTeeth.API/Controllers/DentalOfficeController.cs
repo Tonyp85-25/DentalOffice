@@ -1,6 +1,5 @@
 using CleanTeeth.API.DTO.DentalOffices;
 using CleanTeeth.API.Extensions;
-using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Application.Utilities;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +20,7 @@ public class DentalOfficeController : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize]
-    public async Task<ActionResult<DentalOfficeDetailDTO>> Get(Guid id)
+    public async Task<ActionResult<DentalOfficeDetailDto>> GetAsync(Guid id)
     {
         var query = new GetDentalOfficeDetailQuery { Id = id };
         var result = await _mediator.Send(query);
@@ -30,7 +29,7 @@ public class DentalOfficeController : ControllerBase
 
     [HttpPost]
     [Authorize(Policy = "RequiresAdmin")]
-    public async Task<IActionResult> Post(CreateDentalOfficeDTO createDentalOfficeDto)
+    public async Task<IActionResult> PostAsync(CreateDentalOfficeDto createDentalOfficeDto)
     {
         var command = createDentalOfficeDto.ToCommand();
         var result =await _mediator.Send(command);
@@ -40,16 +39,16 @@ public class DentalOfficeController : ControllerBase
 
     [HttpGet()]
     [Authorize(Policy = "RequiresAdmin")]
-    public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAll()
+    public async Task<ActionResult<List<DentalOfficeListDto>>> GetAllAsync()
     {
         var query = new GetDentalOfficeListQuery();
-        List<DentalOfficeListDTO> result = await _mediator.Send(query);
+        List<DentalOfficeListDto> result = await _mediator.Send(query);
         return result;
     }
 
     [HttpGet("search")]
     [Authorize]
-    public async Task<ActionResult<List<DentalOfficeListDTO>>> GetAllBy([FromQuery] SearchDentalOfficeDTO dto)
+    public async Task<ActionResult<List<DentalOfficeListDto>>> GetAllByAsync([FromQuery] SearchDentalOfficeDto dto)
     {
         if (dto.IsEmpty())
         {
@@ -60,5 +59,5 @@ public class DentalOfficeController : ControllerBase
         var result = await _mediator.Send(query);
         return Ok(result);
     }
-    
+
 }

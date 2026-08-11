@@ -4,7 +4,7 @@ using CleanTeeth.Application.Utilities;
 namespace CleanTeeth.Application.Features.DentalOffices.Queries;
 
 
-public class GetDentalOfficeListQueryHandler: IRequestHandler<GetDentalOfficeListQuery,List<DentalOfficeListDTO>>
+public class GetDentalOfficeListQueryHandler: IRequestHandler<GetDentalOfficeListQuery,List<DentalOfficeListDto>>
 {
     private readonly IDentalOfficeRepository _repository;
 
@@ -13,10 +13,10 @@ public class GetDentalOfficeListQueryHandler: IRequestHandler<GetDentalOfficeLis
         _repository = repository;
     }
 
-    public async Task<List<DentalOfficeListDTO>> Handle(GetDentalOfficeListQuery request)
+    public async Task<List<DentalOfficeListDto>> Handle(GetDentalOfficeListQuery request)
     {
         var list = await _repository.GetAll();
-        var result = list.Select(d=>  new DentalOfficeListDTO
+        var result = list.Select(d=>  new DentalOfficeListDto
         {
             Id = d.Id,
             Name = d.Name
@@ -25,8 +25,8 @@ public class GetDentalOfficeListQueryHandler: IRequestHandler<GetDentalOfficeLis
     }
 }
 
-public class DentalOfficeListDTO
+public class DentalOfficeListDto
 {
     public Guid Id { get; set; }
-    public String Name { get; set; }
+    public string Name { get; set; }
 }

@@ -13,7 +13,7 @@ public class DentalOfficeSearchTest
     private GetDentalOfficeSearchQueryHandler _handler;
     private DentalOfficeBuilder _builder;
 
-    
+
 
     [TestInitialize]
     public void Setup()
@@ -23,25 +23,25 @@ public class DentalOfficeSearchTest
         _builder = new DentalOfficeBuilder();
 
     }
-    
+
     [TestMethod]
     public async Task GetExisitingDentalOfficebyNameReturnResults()
     {
 
         var dentalOffice = _builder.WithName("Dental Office A").Build();
         var dentalOffice2 = _builder.WithName("Dental Office B").WithGuid(Guid.NewGuid()).Build();
-        
+
         await _repository.Add(dentalOffice);
         await _repository.Add(dentalOffice2);
 
         var query = new GetDentalOfficeSearchQuery { Name = "A" };
 
         var result = await _handler.Handle(query);
-        
+
         Assert.AreEqual(2, result.Count);
-        Assert.AreEqual(true, result.Exists((e =>e.Name =="Dental Office A")));
+        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office A"));
     }
-    
+
     [TestMethod]
     public async Task GetExisitingDentalOfficebyZipcodeReturnResults()
     {
@@ -49,55 +49,55 @@ public class DentalOfficeSearchTest
         var address2 = Address.Create("", "street2", "11111", "city");
         var dentalOffice = _builder.WithName("Dental Office A").WithAddress("3;street;11112;city").Build();
         var dentalOffice2 = _builder.WithName("Dental Office B").WithAddress("3;street2;11111;city").Build();
-        
+
         await _repository.Add(dentalOffice);
         await _repository.Add(dentalOffice2);
 
         var query = new GetDentalOfficeSearchQuery { Zipcode="11112" };
 
         var result = await _handler.Handle(query);
-        
+
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists((e =>e.Name =="Dental Office A")));
+        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office A"));
     }
-    
+
     [TestMethod]
     public async Task GetExistingDentalOfficebyCityReturnResults()
     {
         var dentalOffice = _builder.WithName("Dental Office A").WithAddress("3;street;11112;city").Build();
-     
+
         var dentalOffice2 = _builder.WithName("Dental Office B").WithAddress("3;street2;11111;city2").Build();
-           
-        
+
+
         await _repository.Add(dentalOffice);
         await _repository.Add(dentalOffice2);
 
         var query = new GetDentalOfficeSearchQuery { City ="city2" };
 
         var result = await _handler.Handle(query);
-        
+
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists((e =>e.Name =="Dental Office B")));
+        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office B"));
     }
-    
+
     [TestMethod]
     public async Task GetExistingDentalOfficebyOpeningDaysReturnResults()
     {
         var dentalOffice = _builder.WithName("Dental Office A").Build();
-     
+
         var dentalOffice2 = _builder.WithName("Dental Office B").WithDays(62).Build();
-           
-        
+
+
         await _repository.Add(dentalOffice);
         await _repository.Add(dentalOffice2);
 
         var query = new GetDentalOfficeSearchQuery { Days =32};
 
         var result = await _handler.Handle(query);
-        
+
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists((e =>e.Name =="Dental Office B")));
+        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office B"));
     }
-    
+
 
 }

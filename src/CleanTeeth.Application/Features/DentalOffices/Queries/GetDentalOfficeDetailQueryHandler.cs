@@ -4,7 +4,7 @@ using CleanTeeth.Application.Utilities;
 
 namespace CleanTeeth.Application.Features.DentalOffices.Queries;
 
-public class GetDentalOfficeDetailQueryHandler :IRequestHandler<GetDentalOfficeDetailQuery,DentalOfficeDetailDTO>
+public class GetDentalOfficeDetailQueryHandler :IRequestHandler<GetDentalOfficeDetailQuery,DentalOfficeDetailDto>
 {
     private readonly IDentalOfficeRepository _repository;
 
@@ -13,7 +13,7 @@ public class GetDentalOfficeDetailQueryHandler :IRequestHandler<GetDentalOfficeD
         _repository = repository;
     }
 
-    public async Task<DentalOfficeDetailDTO> Handle(GetDentalOfficeDetailQuery request)
+    public async Task<DentalOfficeDetailDto> Handle(GetDentalOfficeDetailQuery request)
     {
         var dentalOffice = await _repository.GetById(request.Id);
 
@@ -22,6 +22,6 @@ public class GetDentalOfficeDetailQueryHandler :IRequestHandler<GetDentalOfficeD
             throw new NotFoundException();
         }
 
-        return dentalOffice.ToDTO();
+        return dentalOffice.ToDto();
     }
 }

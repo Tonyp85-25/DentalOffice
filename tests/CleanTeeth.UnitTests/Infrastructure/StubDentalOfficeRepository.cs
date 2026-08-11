@@ -43,26 +43,26 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
         List<DentalOffice> result= new ();
         if (!string.IsNullOrEmpty(criteria.Name))
         {
-            result.AddRange(Data.FindAll((d => d.Name.Contains(criteria.Name, StringComparison.OrdinalIgnoreCase)))); ;
+            result.AddRange(Data.FindAll(d => d.Name.Contains(criteria.Name, StringComparison.OrdinalIgnoreCase))); ;
         }
 
         if (!string.IsNullOrEmpty(criteria.Zipcode))
         {
-            result.AddRange(Data.FindAll((d => d.Address.Zipcode.Equals(criteria.Zipcode)))); 
+            result.AddRange(Data.FindAll(d => d.Address.Zipcode.Equals(criteria.Zipcode)));
         }
         if (!string.IsNullOrEmpty(criteria.City))
         {
-            result.AddRange(Data.FindAll((d => d.Address.City.Equals(criteria.City)))); 
+            result.AddRange(Data.FindAll(d => d.Address.City.Equals(criteria.City)));
         }
 
         if (criteria.Days != null)
         {
             var days = (Days)criteria.Days;
-            var found = Data.FindAll((d => (d.OpeningDays & days) == days));
+            var found = Data.FindAll(d => (d.OpeningDays & days) == days);
             result.AddRange(found);
 
         }
-        
+
         return Task.FromResult<IEnumerable<DentalOffice>>(result);
     }
 
@@ -70,5 +70,5 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
     {
         throw new Exception();
     }
-    
+
 }

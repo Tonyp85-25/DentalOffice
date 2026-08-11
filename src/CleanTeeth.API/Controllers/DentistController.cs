@@ -17,7 +17,7 @@ public class DentistController:ControllerBase
         _mediator = mediator;
     }
 
-    async Task<IActionResult> Create(CreateDentistDTO dto)
+    async Task<IActionResult> CreateAsync(CreateDentistDto dto)
     {
         var command = dto.ToCommand() ;
         await _mediator.Send(command);

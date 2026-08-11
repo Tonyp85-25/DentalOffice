@@ -17,7 +17,7 @@ public class ErrorHandlingMiddleware
         _logger = logger;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
         try
         {
@@ -25,15 +25,15 @@ public class ErrorHandlingMiddleware
         }
         catch (Exception e)
         {
-            await HandleException(context, e);
+            await HandleExceptionAsync(context, e);
         }
     }
 
-    private async Task HandleException(HttpContext context, Exception exception)
+    private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        
+
         _logger.LogError(exception, "Unhandled exception. TraceId: {TraceId}", context.TraceIdentifier);
-        
+
 
         context.Response.ContentType = "application/json";
         var result = new ProblemDetails
@@ -56,7 +56,7 @@ public class ErrorHandlingMiddleware
                 result.Title = "Resource Not Found";
                 break;
             case CustomValidationException customValidationException:
-                
+
                 result = new ValidationProblemDetails
                 {
                     Status = StatusCodes.Status400BadRequest,
@@ -65,7 +65,7 @@ public class ErrorHandlingMiddleware
                     Instance = context.Request.Path,
                     Errors = customValidationException.ToDictionary()
                 };
-                
+
                 break;
             case BusinessRuleException businessRuleException:
                 result.Status = StatusCodes.Status400BadRequest;
@@ -83,9 +83,9 @@ public class ErrorHandlingMiddleware
 
         await context.Response.WriteAsJsonAsync(result);
     }
-    
- 
-    
+
+
+
 }
 
 public static class ErrorHandlingMiddleWareExtensions

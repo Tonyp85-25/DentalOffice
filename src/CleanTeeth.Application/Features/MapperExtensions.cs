@@ -6,9 +6,9 @@ namespace CleanTeeth.Application.Features;
 
 internal static class MapperExtensions
 {
-    public static DentalOfficeDetailDTO ToDTO(this DentalOffice dentalOffice)
+    public static DentalOfficeDetailDto ToDto(this DentalOffice dentalOffice)
     {
-        var dto = new DentalOfficeDetailDTO
+        var dto = new DentalOfficeDetailDto
         {
             Id = dentalOffice.Id,
             Name = dentalOffice.Name,
@@ -19,5 +19,5 @@ internal static class MapperExtensions
         };
         return dto;
     }
-    
+
 }

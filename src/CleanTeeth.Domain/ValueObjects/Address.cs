@@ -7,7 +7,7 @@ public record Address
 {
     private Address()
     {
-        
+
     }
 
     public string Number { get; set; } = string.Empty;
@@ -44,7 +44,7 @@ public record Address
             throw new BusinessRuleException(
                 $"{nameof(city)} must be at least 2 characters");
         }
-        
+
         if (!IsStreetValid(street))
         {
             throw new BusinessRuleException(
@@ -59,19 +59,19 @@ public record Address
 
         return new Address
         {
-            Number = number,
+            Number = number ?? string.Empty,
             City = city,
             Zipcode = zipcode,
             Street = street,
             AdditionalInfos = additional
         };
     }
-    
+
     public override string ToString()
     {
         return $"{Number};{Street};{Zipcode};{City}";
     }
-    
+
     public static Address FromString(string address)
     {
         var expr = address.Split(';');

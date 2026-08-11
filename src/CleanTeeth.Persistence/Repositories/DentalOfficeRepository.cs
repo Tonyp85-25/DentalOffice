@@ -13,7 +13,7 @@ public class DentalOfficeRepository: Repository<DentalOffice>, IDentalOfficeRepo
 
     public async Task<IEnumerable<DentalOffice>> GetAllBy(DentalOfficeCriteria criteria)
     {
-        var query = _context.DentalOffices.AsQueryable();
+        var query = Context.DentalOffices.AsQueryable();
         if (!string.IsNullOrWhiteSpace(criteria.Name))
         {
             query = query.Where((d) => d.Name.Contains(criteria.Name));

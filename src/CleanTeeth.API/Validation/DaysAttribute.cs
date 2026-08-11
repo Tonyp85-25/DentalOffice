@@ -5,11 +5,15 @@ namespace CleanTeeth.API.Validation;
 
 internal class DaysAttribute : ValidationAttribute
 {
-    
+
     public string GetErrorMessage() => "Days are invalid";
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
+        if ( value == null)
+        {
+            return ValidationResult.Success;
+        }
         var days = (int[])value;
         if (days.Length == 0)
         {

@@ -31,7 +31,7 @@ public class DentalOfficesListTest
         await _repository.Add(dentalOffice2);
         var query = new GetDentalOfficeListQuery();
 
-        List<DentalOfficeListDTO> result = await _handler.Handle(query);
+        List<DentalOfficeListDto> result = await _handler.Handle(query);
 
         Assert.AreEqual(2, result.Count);
         foreach (var office in result)
@@ -45,7 +45,7 @@ public class DentalOfficesListTest
     {
         var query = new GetDentalOfficeListQuery();
 
-        List<DentalOfficeListDTO> result = await _handler.Handle(query);
+        List<DentalOfficeListDto> result = await _handler.Handle(query);
 
         Assert.AreEqual(0, result.Count);
        

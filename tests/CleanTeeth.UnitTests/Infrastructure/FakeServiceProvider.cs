@@ -39,7 +39,7 @@ public class FakeServiceProvider : IServiceProvider
                {
                    return Activator.CreateInstance(service);
                }
-               
+
             }
 
             return null;

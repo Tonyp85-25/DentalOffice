@@ -4,9 +4,9 @@ using CleanTeeth.Application.Features.Dentists.Command.CreateDentist;
 
 namespace CleanTeeth.API.DTO.Dentists;
 
-public record CreateDentistDTO()
+public record CreateDentistDto()
 {
-    public CreateDentistDTO(string lastName, string firstName, string email) : this()
+    public CreateDentistDto(string lastName, string firstName, string email) : this()
     {
         LastName = lastName;
         FirstName = firstName;
@@ -20,12 +20,12 @@ public record CreateDentistDTO()
     [MinLength(2)]
     [MaxLength(30)]
     public required string FirstName { get; set; }
-    
+
     [Required]
     [EmailAddress]
     [MaxLength(60)]
     public required string Email { get; set; }
-    
+
     public List<string> Offices { get; set; } = new();
 
     public CreateDentistCommand ToCommand()
@@ -38,7 +38,7 @@ public record CreateDentistDTO()
                 offices.Add(value);
             }
         }
-        
+
         return new CreateDentistCommand
         {
             Email=Email,
@@ -47,5 +47,5 @@ public record CreateDentistDTO()
             Offices = offices
         };
     }
-    
+
 }

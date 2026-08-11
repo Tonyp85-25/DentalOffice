@@ -4,14 +4,14 @@ using CleanTeeth.Application.Features.DentalOffices.Queries;
 
 namespace CleanTeeth.API.Extensions;
 
-internal static class APIExtensions
+internal static class ApiExtensions
 {
-    public static CreateDentalOfficeCommand ToCommand(this CreateDentalOfficeDTO dto)
+    public static CreateDentalOfficeCommand ToCommand(this CreateDentalOfficeDto dto)
     {
         return new CreateDentalOfficeCommand
         {
             Name = dto.Name,
-            Number = dto.Number,
+            Number = dto.Number ?? string.Empty,
             Street = dto.Street,
             Zipcode = dto.Zipcode,
             City = dto.City,
@@ -20,7 +20,7 @@ internal static class APIExtensions
         };
     }
 
-    public static GetDentalOfficeSearchQuery ToQuery(this  SearchDentalOfficeDTO dto)
+    public static GetDentalOfficeSearchQuery ToQuery(this  SearchDentalOfficeDto dto)
     {
         return new GetDentalOfficeSearchQuery
         {

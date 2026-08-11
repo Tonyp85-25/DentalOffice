@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetAppDBString();
+var connectionString = builder.Configuration.GetAppDbString();
 builder.Services.AddSecurityServices(connectionString);
 builder.Services.AddPersistenceServices(connectionString);
 builder.Services.AddApplicationServices();

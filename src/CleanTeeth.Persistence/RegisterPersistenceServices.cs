@@ -16,20 +16,20 @@ public static class RegisterPersistenceServices
     private const int DefaultPort = 1433;
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, string connectionString)
     {
-        
+
         services.AddDbContext<CleanTeethDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<IDentalOfficeRepository, DentalOfficeRepository>();
-        services.AddScoped<IUnitOfWork, UnitOfWorkEFCore>();
+        services.AddScoped<IUnitOfWork, UnitOfWorkEfCore>();
         services.AddScoped<IIdProvider, GuidProvider>();
-        
-        
+
+
         return services;
     }
 
-    
 
-    public static string GetAppDBString( this IConfiguration config)
+
+    public static string GetAppDbString( this IConfiguration config)
     {
         var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
         if (string.IsNullOrEmpty(strBuilder.InitialCatalog))
@@ -38,9 +38,9 @@ public static class RegisterPersistenceServices
             strBuilder.InitialCatalog = config["DbName"];
             strBuilder.UserID = config["DbUser"];
             strBuilder.Password = config["DbPassword"];
-        }   
-        
-      
+        }
+
+
         return strBuilder.ConnectionString;
-    } 
+    }
 }

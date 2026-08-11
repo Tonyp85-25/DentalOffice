@@ -2,11 +2,11 @@ using CleanTeeth.Application.Contracts.Persistence;
 
 namespace CleanTeeth.Persistence.UnitsOfWork;
 
-public class UnitOfWorkEFCore:IUnitOfWork
+public class UnitOfWorkEfCore:IUnitOfWork
 {
     private readonly CleanTeethDbContext _context;
 
-    public UnitOfWorkEFCore(CleanTeethDbContext context)
+    public UnitOfWorkEfCore(CleanTeethDbContext context)
     {
         _context = context;
     }
