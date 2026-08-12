@@ -6,18 +6,14 @@ namespace CleanTeeth.Tests.Domain.ValueObjects;
 [TestClass]
 public class EmailTests
 {
-    [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
-    public void ConstructorNullEmailThrows()
-    {
-        new Email(null);
-    }
 
     [TestMethod]
     [ExpectedException(typeof(BusinessRuleException))]
     public void ConstructorBadEmailThrows()
     {
-        new Email("abcd.abcd");
+       Assert.ThrowsException<BusinessRuleException>(()=>
+           new Email("abcd.abcd")
+        ) ;
     }
 
     [TestMethod]

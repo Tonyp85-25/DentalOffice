@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
-
+#pragma warning disable CS8604 // Possible null reference argument.
 public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
     public const string AuthenticationScheme = "Test";
@@ -41,7 +41,9 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
         {
             return Task.FromResult(AuthenticateResult.Fail("No role specified"));
         }
+
         claims.Add(new Claim(ClaimTypes.Role, role));
+
         var identity = new ClaimsIdentity(claims, AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, AuthenticationScheme);

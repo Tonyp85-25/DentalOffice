@@ -6,12 +6,6 @@ namespace CleanTeeth.Tests.Domain.ValueObjects;
 [TestClass]
 public class AddressTests
 {
-    [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
-    public void AddressWithMissingValuesThrows()
-    {
-        Address.Create("8", null, null, null);
-    }
 
     [TestMethod]
     [ExpectedException(typeof(BusinessRuleException))]

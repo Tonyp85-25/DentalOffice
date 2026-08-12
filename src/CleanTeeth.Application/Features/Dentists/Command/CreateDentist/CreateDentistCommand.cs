@@ -1,10 +1,5 @@
-using CleanTeeth.Application.Contracts.Persistence;
-using CleanTeeth.Application.Contracts.Repositories;
-using CleanTeeth.Application.Contracts.Services;
-using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Utilities;
-using CleanTeeth.Domain.Entities;
-using CleanTeeth.Domain.ValueObjects;
+
 using FluentValidation;
 
 namespace CleanTeeth.Application.Features.Dentists.Command.CreateDentist;
@@ -22,8 +17,7 @@ public class CreateDentistCommand:IRequest<Guid>
 public class CreateDentistCommandValidator : AbstractValidator<CreateDentistCommand>
 {
 
-    public CreateDentistCommandValidator(IDentistRepository dentistRepository
-    )
+    public CreateDentistCommandValidator()
     {
         RuleFor(x => x.FirstName).NotEmpty().MaximumLength(30).MinimumLength(2);
         RuleFor(x => x.LastName).NotEmpty().MaximumLength(30).MinimumLength(2);
