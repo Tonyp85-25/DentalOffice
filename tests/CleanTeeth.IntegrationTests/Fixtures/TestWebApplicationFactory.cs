@@ -24,9 +24,9 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
     {
         builder.UseEnvironment("testing");
         builder.UseSetting("ConnectionStrings:CleanTeethConnectionString", _dbConnectionString);
-        builder.ConfigureAppConfiguration((context, config) =>
+        builder.ConfigureAppConfiguration((_, config) =>
         {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
+            config.AddInMemoryCollection(new Dictionary<string, string?>(StringComparer.Ordinal)
             {
                 ["ConnectionStrings:CleanTeethConnectionString"] = _dbConnectionString
             });
@@ -34,18 +34,20 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
         builder.ConfigureServices( services =>
         {
            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<CleanTeethDbContext>));
-           
+
            if(descriptor != null)
            {
                services.Remove(descriptor);
            }
-           var stringBuilder = new SqlConnectionStringBuilder(_dbConnectionString);
-           stringBuilder.InitialCatalog = "test";
+           var stringBuilder = new SqlConnectionStringBuilder(_dbConnectionString)
+           {
+               InitialCatalog = "test"
+           };
            services.AddDbContext<CleanTeethDbContext>(options =>
            {
                options.UseSqlServer(stringBuilder.ConnectionString);
            });
-           
+
            services.AddAuthentication(TestAuthHandler.AuthenticationScheme)
                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(
                    TestAuthHandler.AuthenticationScheme, _ => { });
@@ -58,8 +60,8 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
            });
         });
     }
-    
-    public async Task EnsureDatabaseCreated(IServiceScope scope, CancellationToken token)
+
+    public static async Task EnsureDatabaseCreated(IServiceScope scope, CancellationToken token)
     {
         var securityDbContext = scope.ServiceProvider.GetRequiredService<SecurityDbContext>();
         await securityDbContext.Database.EnsureCreatedAsync(token);
@@ -67,6 +69,6 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
         await UserSeeder.SeedUsers(scope.ServiceProvider);
         var cleanTeethDbContext = scope.ServiceProvider.GetRequiredService<CleanTeethDbContext>();
         await cleanTeethDbContext.Database.EnsureCreatedAsync(token);
-        
+
     }
 }

@@ -1,4 +1,3 @@
-using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Domain.Entities;
 
 namespace CleanTeeth.Application.Contracts.Repositories;

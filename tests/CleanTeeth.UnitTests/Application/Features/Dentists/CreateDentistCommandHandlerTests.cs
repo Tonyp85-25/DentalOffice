@@ -9,17 +9,21 @@ using CleanTeeth.Domain.ValueObjects;
 using CleanTeeth.Tests.Infrastructure;
 using FluentValidation;
 
+#pragma warning disable S3261
 namespace CleanTeeth.Tests.Application.Features.Dentists;
+#pragma warning restore S3261
 
 // [TestClass]
 // public class CreateDentistCommandHandlerTests
+#pragma warning disable S125
 // {
+#pragma warning restore S125
 //     private IIdProvider _idProvider;
 //     private IDentalOfficeRepository _dentalOfficeRepository;
 //     private StubDentistRepository _dentistRepository;
 //     private IUnitOfWork _unitOfWork;
 //     private CreateDentistCommandHandler _handler;
-//    
+//
 //
 //     [TestInitialize]
 //     public void Setup()
@@ -36,8 +40,8 @@ namespace CleanTeeth.Tests.Application.Features.Dentists;
 //     public async Task HandleCreatesADentist()
 //     {
 //         var dentalOffices = new List<Guid> { Guid.Empty };
-//             
-//         
+//
+//
 //         var command = new CreateDentistCommand
 //         {
 //             Id=Guid.Empty,
@@ -50,14 +54,14 @@ namespace CleanTeeth.Tests.Application.Features.Dentists;
 //
 //         var dentistId = await _handler.Handle(command);
 //         Assert.AreEqual(Guid.Empty,dentistId);
-//   
+//
 //     }
-//     
+//
 //     [TestMethod]
 //     [ExpectedException(typeof(AlreadyExistsException))]
 //     public async Task CreationFailsWhenDentistAlreadyExists()
 //     {
-//         
+//
 //         var command = new CreateDentistCommand
 //         {
 //             Id=Guid.Empty,
@@ -75,7 +79,7 @@ namespace CleanTeeth.Tests.Application.Features.Dentists;
 //         await _dentistRepository.Add(dentist);
 //         await _handler.Handle(command);
 //     }
-//     
+//
 //     [TestMethod]
 //     public async Task WhenCreationFailsDatabaseIsTheSame()
 //     {
@@ -100,7 +104,7 @@ namespace CleanTeeth.Tests.Application.Features.Dentists;
 //             await _handler.Handle(command);
 //         }
 //         catch { }
-//         
+//
 //         var data = await _dentistRepository.GetAll();
 //         Assert.AreEqual(1,data.Count() );
 //     }

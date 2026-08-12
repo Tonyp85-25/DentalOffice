@@ -9,7 +9,9 @@ namespace Security.Migrations
     public partial class AddIdentityTables : Migration
     {
         /// <inheritdoc />
+#pragma warning disable MA0051
         protected override void Up(MigrationBuilder migrationBuilder)
+#pragma warning restore MA0051
         {
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",

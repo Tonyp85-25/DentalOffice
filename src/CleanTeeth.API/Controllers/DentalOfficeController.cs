@@ -18,7 +18,7 @@ public class DentalOfficeController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     [Authorize]
     public async Task<ActionResult<DentalOfficeDetailDto>> GetAsync(Guid id)
     {
@@ -32,8 +32,8 @@ public class DentalOfficeController : ControllerBase
     public async Task<IActionResult> PostAsync(CreateDentalOfficeDto createDentalOfficeDto)
     {
         var command = createDentalOfficeDto.ToCommand();
-        var result =await _mediator.Send(command);
-        var location = $"/{result}";
+        var result =await _mediator.Send(command).ConfigureAwait(false);
+        Uri location = new ($"/{result}");
         return Created(location, result);
     }
 

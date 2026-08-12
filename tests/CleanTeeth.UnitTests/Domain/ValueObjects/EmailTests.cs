@@ -8,21 +8,22 @@ public class EmailTests
 {
     [TestMethod]
     [ExpectedException(typeof(BusinessRuleException))]
-    public void Constructor_Null_Email_Throws()
+    public void ConstructorNullEmailThrows()
     {
         new Email(null);
     }
-    
+
     [TestMethod]
     [ExpectedException(typeof(BusinessRuleException))]
-    public void Constructor_Bad_Email_Throws()
+    public void ConstructorBadEmailThrows()
     {
         new Email("abcd.abcd");
     }
-    
+
     [TestMethod]
-    public void Constructor_Valid_Email()
+    public void ConstructorValidEmail()
     {
-        new Email("abcd@blo.abcd");
+        var email=new Email("abcd@blo.abcd");
+        Assert.IsInstanceOfType<Email>(email);
     }
 }

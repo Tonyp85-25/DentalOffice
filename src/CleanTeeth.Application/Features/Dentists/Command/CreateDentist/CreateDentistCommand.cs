@@ -15,13 +15,13 @@ public class CreateDentistCommand:IRequest<Guid>
     public string LastName { get; set; }
     public string FirstName { get; set; }
     public string Email { get; set; }
-    public List<Guid> Offices { get; set; } = new();
+    public IEnumerable<Guid> Offices { get; set; }
 
 }
 
 public class CreateDentistCommandValidator : AbstractValidator<CreateDentistCommand>
 {
-    
+
     public CreateDentistCommandValidator(IDentistRepository dentistRepository
     )
     {

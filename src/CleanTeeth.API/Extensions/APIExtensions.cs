@@ -27,7 +27,7 @@ internal static class ApiExtensions
             City = dto.City,
             Name = dto.Name,
             Zipcode = dto.Zipcode,
-            Days = !dto.Days.Any() ? null: dto.Days.Sum(),
+            Days = dto.Days.Count == 0 ? null: dto.Days.Sum(),
         };
     }
 }

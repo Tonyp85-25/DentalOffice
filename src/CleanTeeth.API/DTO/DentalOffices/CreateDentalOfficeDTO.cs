@@ -24,6 +24,8 @@ public class CreateDentalOfficeDto
     public string? Number { get; set; }
 
     [Required]
-    public List<int> Days { get; set; }
+#pragma warning disable CA2227
+    public IList<int> Days { get; set; }
+#pragma warning restore CA2227
 
 }

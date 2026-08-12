@@ -9,11 +9,11 @@ public class Dentist
     public string LastName { get; set; } = null!;
     public string FirstName { get;  set; } = null!;
     public Email Email { get; set; } = null!;
-    
+
 
     private List<DentalOffice> DentalOffices { get; set; } = new();
 
-    public bool IsPublished { get; private set; } = false;
+    public bool IsPublished { get; private set; }
 
     private bool HasDentalOffice => DentalOffices.Count > 0;
 
@@ -25,7 +25,7 @@ public class Dentist
     {
         IsPublished = false;
     }
-    
+
 
     public void AddDentalOffice(DentalOffice dentalOffice)
     {
@@ -34,7 +34,7 @@ public class Dentist
             Publish();
         }
         DentalOffices.Add(dentalOffice);
-        
+
     }
     public void RemoveDentalOffice(DentalOffice dentalOffice)
     {
@@ -44,7 +44,7 @@ public class Dentist
             Unpublish();
         }
     }
-    
-    
+
+
 
 }

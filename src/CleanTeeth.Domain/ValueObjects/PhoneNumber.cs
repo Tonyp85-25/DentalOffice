@@ -6,7 +6,7 @@ public record PhoneNumber
 {
     private PhoneNumber()
     {
-       
+
     }
 
     public static  PhoneNumber  Create(string value)
@@ -16,7 +16,7 @@ public record PhoneNumber
             throw new BusinessRuleException("PhoneNumber must be 10 characters");
         }
 
-        if (!value.StartsWith("0"))
+        if (!value.StartsWith('0'))
         {
             throw new BusinessRuleException("PhoneNumber must start with 0");
         }

@@ -4,9 +4,9 @@ using CleanTeeth.Domain.ValueObjects;
 
 namespace CleanTeeth.Tests.Infrastructure;
 
-public class StubDentalOfficeRepository: IDentalOfficeRepository
+internal class StubDentalOfficeRepository: IDentalOfficeRepository
 {
-    public bool MustThrows { get; set; } = false;
+    public bool MustThrows { get; set; }
     public List<DentalOffice> Data { get; }= new();
     public Task<DentalOffice?> GetById(Guid id)
     {
@@ -43,16 +43,16 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
         List<DentalOffice> result= new ();
         if (!string.IsNullOrEmpty(criteria.Name))
         {
-            result.AddRange(Data.FindAll(d => d.Name.Contains(criteria.Name, StringComparison.OrdinalIgnoreCase))); ;
+            result.AddRange(Data.FindAll(d => d.Name.Contains(criteria.Name, StringComparison.OrdinalIgnoreCase)));
         }
 
         if (!string.IsNullOrEmpty(criteria.Zipcode))
         {
-            result.AddRange(Data.FindAll(d => d.Address.Zipcode.Equals(criteria.Zipcode)));
+            result.AddRange(Data.FindAll(d => d.Address.Zipcode.Equals(criteria.Zipcode,StringComparison.OrdinalIgnoreCase)));
         }
         if (!string.IsNullOrEmpty(criteria.City))
         {
-            result.AddRange(Data.FindAll(d => d.Address.City.Equals(criteria.City)));
+            result.AddRange(Data.FindAll(d => d.Address.City.Equals(criteria.City,StringComparison.OrdinalIgnoreCase)));
         }
 
         if (criteria.Days != null)
@@ -66,9 +66,11 @@ public class StubDentalOfficeRepository: IDentalOfficeRepository
         return Task.FromResult<IEnumerable<DentalOffice>>(result);
     }
 
-    public void Throws()
+    public static void Throws()
     {
+        #pragma warning disable CA2201
         throw new Exception();
+
     }
 
 }

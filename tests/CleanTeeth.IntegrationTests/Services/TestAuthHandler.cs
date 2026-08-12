@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using Microsoft.Extensions.Primitives;
+
 namespace CleanTeeth.IntegrationTests.Services;
 
 using System.Security.Claims;
@@ -27,17 +30,18 @@ public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions
             return Task.FromResult(AuthenticateResult.Fail("No test user specified"));
         }
 
+
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, userId!),
+            new(ClaimTypes.NameIdentifier, userId),
         };
 
-     
+
         if (!Request.Headers.TryGetValue(TestUserRoleHeader, out var role))
         {
             return Task.FromResult(AuthenticateResult.Fail("No role specified"));
         }
-        claims.Add(new Claim(ClaimTypes.Role, role!));
+        claims.Add(new Claim(ClaimTypes.Role, role));
         var identity = new ClaimsIdentity(claims, AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, AuthenticationScheme);

@@ -5,12 +5,12 @@ namespace CleanTeeth.Tests.Infrastructure;
 
 public class StubDentistRepository:IDentistRepository
 {
-    public  List<Dentist> Data { get; set; } = new();
+    public   IList<Dentist> Data { get; }
 
-    public bool MustThrow = false;
+    public bool MustThrow { get; set; }
     public Task<Dentist?> GetById(Guid id)
     {
-        return Task.FromResult(Data.Find(d => d.Id == id)) ;
+        return Task.FromResult(Data.FirstOrDefault(d => d.Id == id)) ;
     }
 
     public Task<IEnumerable<Dentist>> GetAll()
@@ -40,12 +40,14 @@ public class StubDentistRepository:IDentistRepository
 
     public Task<bool> Exists(string email)
     {
-        var result = Data.FirstOrDefault(d => d.Email.Value == email) != null;
+        var result = Data.FirstOrDefault(d => d.Email.Value.Equals(email,StringComparison.Ordinal) ) != null;
         return Task.FromResult(result);
     }
 
-    private void Throws()
+    private static void Throws()
     {
+#pragma warning disable CA2201
         throw new Exception("");
+#pragma warning restore CA2201
     }
 }

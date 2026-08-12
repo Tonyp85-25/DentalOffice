@@ -9,7 +9,7 @@ namespace CleanTeeth.Tests.Application.Features.DentalOffices;
 
 public class CreateDentalOfficeCommandBuilder
 {
-    private CreateDentalOfficeCommand _command;
+    private readonly CreateDentalOfficeCommand _command;
 
     public CreateDentalOfficeCommandBuilder()
     {
@@ -38,11 +38,13 @@ public class CreateDentalOfficeCommandBuilder
 [TestClass]
 public class CreateDentalOfficeCommandHandlerTests
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     private StubDentalOfficeRepository _repository;
     private IUnitOfWork _unitOfWork;
     private CreateDentalOfficeHandler _handler;
     private IIdProvider _idProvider;
     private CreateDentalOfficeCommandBuilder _builder;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     private const int WorkingDays =31;
 
     [TestInitialize]
@@ -56,17 +58,17 @@ public class CreateDentalOfficeCommandHandlerTests
     }
 
     [TestMethod]
-    public async Task Handle_ValidCommand_ReturnsDentalOfficeId()
+    public async Task HandleValidCommandReturnsDentalOfficeId()
     {
         var command = _builder.WithName("Dental Office A").Build();
-        
+
         var result = await _handler.Handle(command);
-      
+
         Assert.AreEqual(Guid.Empty, result);
     }
-    
+
     [TestMethod]
-    public async Task Handle_WhenThereAreErrors_WeRollBack()
+    public async Task HandleWhenThereAreErrorsWeRollBack()
     {
         var address = Address.Create("", "street", "11111", "city");
         var dentalOffice = DentalOffice.Create("Dental Office A", Guid.Empty, address,WorkingDays);
@@ -77,13 +79,14 @@ public class CreateDentalOfficeCommandHandlerTests
         {
             await _handler.Handle(command);
         }
-        catch (Exception e)
+        catch (Exception)
         {
+            var dentalOffices = await _repository.GetAll();
+            Assert.AreEqual(1, dentalOffices.Count());
         }
 
-        var dentalOffices = await _repository.GetAll();
-        Assert.AreEqual(1, dentalOffices.Count());
-    
-        
+
+
+
     }
 }

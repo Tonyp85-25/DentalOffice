@@ -11,10 +11,10 @@ public class AppointmentTests
     private Guid _patientId = Guid.NewGuid();
     private Guid _dentistId = Guid.NewGuid();
     private Guid _dentalOfficeId =Guid.NewGuid();
-    private TimeInterval _interval = new TimeInterval(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2));
-    
+    private readonly TimeInterval _interval = new TimeInterval(DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(2));
+
     [TestMethod]
-    public void Constructor_Valid_Appointment()
+    public void ConstructorValidAppointment()
     {
         var appointment = new Appointment(_patientId, _dentistId, _dentalOfficeId, _interval);
         Assert.AreEqual(_patientId,appointment.PatientId);
@@ -26,45 +26,47 @@ public class AppointmentTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
-    public void Constructor_StartTimeInTHePast_Throws()
+    public void ConstructorStartTimeInTHePastThrows()
     {
         var interval = new TimeInterval(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow);
-        new Appointment(_patientId, _dentistId, _dentalOfficeId, interval);
+        Assert.ThrowsException<BusinessRuleException>(() => new Appointment(_patientId, _dentistId, _dentalOfficeId, interval));
+
 
     }
 
     [TestMethod]
-    public void CancelAppointment_ChangeStatusToCancelled()
+    public void CancelAppointmentChangeStatusToCancelled()
     {
         var appointment = new Appointment(_patientId, _dentistId, _dentalOfficeId, _interval);
         appointment.Cancel();
         Assert.AreEqual(AppointmentStatus.Cancelled,appointment.Status);
     }
-    
+
     [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
-    public void CancelAppointment_ThrowsIfNotScheduled()
+
+    public void CancelAppointmentThrowsIfNotScheduled()
     {
         var appointment = new Appointment(_patientId, _dentistId, _dentalOfficeId, _interval);
         appointment.Cancel();
-        appointment.Cancel();
+        Assert.ThrowsException<BusinessRuleException>(appointment.Cancel);
+
     }
-    
+
     [TestMethod]
-    public void CompleteAppointment_ChangeStatusToCompleted()
+    public void CompleteAppointmentChangeStatusToCompleted()
     {
         var appointment = new Appointment(_patientId, _dentistId, _dentalOfficeId, _interval);
         appointment.Complete();
         Assert.AreEqual(AppointmentStatus.Completed,appointment.Status);
     }
-    
+
     [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
-    public void CompleteAppointment_ThrowsIfNotScheduled()
+
+    public void CompleteAppointmentThrowsIfNotScheduled()
     {
         var appointment = new Appointment(_patientId, _dentistId, _dentalOfficeId, _interval);
         appointment.Complete();
-        appointment.Complete();
+        Assert.ThrowsException<BusinessRuleException>(appointment.Complete);
+
     }
 }

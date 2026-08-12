@@ -12,14 +12,14 @@ public class Appointment
     public Guid DentalOfficeId { get; private set; }
     public AppointmentStatus Status { get; private set; }
     public TimeInterval TimeInterval{ get; private set; }
- 
-    public Patient? Patient { get; private set; }
-    public Dentist? Dentist { get; private set; }
-    public DentalOffice? DentalOffice { get; private set; }
+
+    public Patient? Patient { get;  }
+    public Dentist? Dentist { get;  }
+    public DentalOffice? DentalOffice { get;  }
 
     public Appointment(Guid patientId, Guid dentistId, Guid dentalOfficeId, TimeInterval timeInterval)
     {
-        
+
         if (timeInterval.Start < DateTime.UtcNow)
         {
             throw new BusinessRuleException("The start time cannot be int the past");

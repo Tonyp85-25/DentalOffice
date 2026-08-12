@@ -1,6 +1,7 @@
 using ArchUnitNET.Domain;
 using ArchUnitNET.Loader;
-using ArchUnitNET.Fluent;
+using ArchUnitNET.Fluent.Syntax.Elements.Types;
+using ArchUnitNET.Fluent.Syntax.Elements.Types.Classes;
 using ArchUnitNET.xUnitV3;
 using CleanTeeth.API.Controllers;
 using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
@@ -32,14 +33,14 @@ public class ArchitectureTests
     [Fact]
     public void DomainTypesShouldNotDependOnOthersLayers()
     {
-        IArchRule rule = Types().That().Are(_domainLayer).Should().NotDependOnAny(_applicationLayer)
+        TypesShouldConjunctionWithDescription rule = Types().That().Are(_domainLayer).Should().NotDependOnAny(_applicationLayer)
             .Because("It does not respect clean architecture principles")
             ;
-        IArchRule rule2 = Types().That().Are(_domainLayer).Should().NotDependOnAny(_infrastructureLayer)
+        TypesShouldConjunctionWithDescription rule2 = Types().That().Are(_domainLayer).Should().NotDependOnAny(_infrastructureLayer)
             .Because("It does not respect clean architecture principles")
             ;
 
-        IArchRule rule3 = Types().That().Are(_domainLayer).Should().NotDependOnAny(_apiLayer)
+        TypesShouldConjunctionWithDescription rule3 = Types().That().Are(_domainLayer).Should().NotDependOnAny(_apiLayer)
             .Because("It does not respect clean architecture principles")
             ;
 
@@ -50,9 +51,9 @@ public class ArchitectureTests
     public void ApplicationTypesShouldDependOnlyFromDomain()
     {
 
-        IArchRule rule = Types().That().Are(_applicationLayer).Should().NotDependOnAny(_apiLayer)
+        TypesShouldConjunctionWithDescription rule = Types().That().Are(_applicationLayer).Should().NotDependOnAny(_apiLayer)
             .Because("It does not respect clean architecture principles");
-        IArchRule rule2 = Types().That().Are(_applicationLayer).Should().NotDependOnAny(_infrastructureLayer)
+        TypesShouldConjunctionWithDescription rule2 = Types().That().Are(_applicationLayer).Should().NotDependOnAny(_infrastructureLayer)
             .Because("It does not respect clean architecture principles")
             ;
         rule.And(rule2).Check(Architecture);
@@ -62,7 +63,7 @@ public class ArchitectureTests
     public void InfrastructureTypesShouldOnlyDependFromCore()
     {
 
-        IArchRule rule = Types().That().Are(_infrastructureLayer).Should().NotDependOnAny(_apiLayer)
+        TypesShouldConjunctionWithDescription rule = Types().That().Are(_infrastructureLayer).Should().NotDependOnAny(_apiLayer)
             .Because("It does not respect clean architecture principles");
 
         rule.Check(Architecture);
@@ -71,9 +72,9 @@ public class ArchitectureTests
     [Fact]
     public void RequestAndHandlersShouldBeDefinedInApplication()
     {
-        IArchRule rule = Classes().That().ImplementInterface(typeof(IRequestHandler<,>)).Should().ResideInNamespaceMatching("CleanTeeth.Application.Features")
+        ClassesShouldConjunctionWithDescription rule = Classes().That().ImplementInterface(typeof(IRequestHandler<,>)).Should().ResideInNamespaceMatching("CleanTeeth.Application.Features")
             .Because("It is their places");
-        IArchRule rule2 = Classes().That().ImplementInterface(typeof(IRequest<>)).Should().ResideInNamespaceMatching("CleanTeeth.Application.Features")
+        ClassesShouldConjunctionWithDescription rule2 = Classes().That().ImplementInterface(typeof(IRequest<>)).Should().ResideInNamespaceMatching("CleanTeeth.Application.Features")
             .Because("It is their places");
 
         rule.And(rule2).Check(Architecture);

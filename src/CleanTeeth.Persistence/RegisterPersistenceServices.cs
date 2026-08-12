@@ -1,3 +1,4 @@
+using System.Globalization;
 using CleanTeeth.Application.Contracts.Persistence;
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Contracts.Services;
@@ -34,7 +35,7 @@ public static class RegisterPersistenceServices
         var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
         if (string.IsNullOrEmpty(strBuilder.InitialCatalog))
         {
-            strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString()}";
+            strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString(NumberFormatInfo.InvariantInfo)}";
             strBuilder.InitialCatalog = config["DbName"];
             strBuilder.UserID = config["DbUser"];
             strBuilder.Password = config["DbPassword"];

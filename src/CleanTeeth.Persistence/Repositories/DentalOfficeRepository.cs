@@ -20,17 +20,19 @@ public class DentalOfficeRepository: Repository<DentalOffice>, IDentalOfficeRepo
         }
         if (!string.IsNullOrWhiteSpace(criteria.Zipcode))
         {
+#pragma warning disable CA1309
             query = query.Where((d) => d.Address.Zipcode.Equals(criteria.Zipcode));
+
         }
         if (!string.IsNullOrWhiteSpace(criteria.City))
         {
             query = query.Where((d) => d.Address.City.Equals(criteria.City));
         }
-
+#pragma warning restore CA1309
         if (criteria.Days != null)
         {
             var days = (Days)criteria.Days;
-                
+
             query = query.Where((d) => (d.OpeningDays & days)==days);
         }
 

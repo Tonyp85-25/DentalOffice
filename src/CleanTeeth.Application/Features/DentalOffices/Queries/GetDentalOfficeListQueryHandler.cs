@@ -28,5 +28,5 @@ public class GetDentalOfficeListQueryHandler: IRequestHandler<GetDentalOfficeLis
 public class DentalOfficeListDto
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }

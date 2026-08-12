@@ -1,12 +1,10 @@
-using System.Net;
-using System.Text.Json;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanTeeth.API.Middlewares;
 
-public class ErrorHandlingMiddleware
+public partial class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
@@ -32,8 +30,8 @@ public class ErrorHandlingMiddleware
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
 
-        _logger.LogError(exception, "Unhandled exception. TraceId: {TraceId}", context.TraceIdentifier);
 
+        LogException( exception,context.TraceIdentifier);
 
         context.Response.ContentType = "application/json";
         var result = new ProblemDetails
@@ -81,8 +79,14 @@ public class ErrorHandlingMiddleware
         result.Extensions["traceId"] = context.TraceIdentifier;
         result.Extensions["timestamp"] = DateTime.UtcNow;
 
-        await context.Response.WriteAsJsonAsync(result);
+        await context.Response.WriteAsJsonAsync(result,context.RequestAborted);
     }
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "Unhandled exception. TraceId: {traceId}\n.")]
+    private partial void LogException(Exception exception, string traceId);
+
+
+
 
 
 

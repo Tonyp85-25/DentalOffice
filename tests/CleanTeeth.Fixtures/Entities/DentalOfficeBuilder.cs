@@ -5,7 +5,7 @@ namespace CleanTeeth.Fixtures.Entities;
 
 public class DentalOfficeBuilder
 {
-    
+
     private string _name = "Dental Office A";
     private Guid _guid = Guid.Empty;
     private Address _address = Address.FromString("2;rue du quai;11111;Uneville");
@@ -21,9 +21,9 @@ public class DentalOfficeBuilder
         _name = name;
         return this;
     }
-    public DentalOfficeBuilder WithGuid(Guid guid)
+    public DentalOfficeBuilder WithGuid(Guid id)
     {
-        _guid = guid;
+        _guid = id;
         return this;
     }
     public DentalOfficeBuilder WithAddress(string address)
@@ -31,7 +31,7 @@ public class DentalOfficeBuilder
         _address = Address.FromString(address);
         return this;
     }
-    
+
     public DentalOfficeBuilder WithDays(int days)
     {
         _days = days;

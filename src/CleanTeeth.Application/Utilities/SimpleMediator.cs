@@ -15,49 +15,30 @@ public class SimpleMediator: IMediator
 
     public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
     {
-        await ApplyValidations(request);
+        await ApplyValidationsAsync(request);
         var handlerType = typeof(IRequestHandler<,>).MakeGenericType(request.GetType(), typeof(TResponse));
 
-        var handler = _serviceProvider.GetService(handlerType);
-
-        if (handler is null)
-        {
-            throw new MediatorException($"Handler was not found for {request.GetType().Name}");
-        }
-
+        var handler = _serviceProvider.GetService(handlerType) ?? throw new MediatorException($"Handler was not found for {request.GetType().Name}");
         var method = handlerType.GetMethod("Handle")!; // Handler is null checked above
-        var response = method.Invoke(handler, new object[] { request });
-        if (response is null)
-        {
-            throw new MediatorException($"Response was null for {request.GetType().Name}");
-        }
-        return await (Task<TResponse>)response;
-
+        var response = method.Invoke(handler, [request]);
+        return response is null
+            ? throw new MediatorException($"Response was null for {request.GetType().Name}")
+            : await (Task<TResponse>)response;
     }
 
     public async Task Send(IRequest request)
     {
-       await  ApplyValidations(request);
+       await  ApplyValidationsAsync(request);
         var handlerType = typeof(IRequestHandler<>).MakeGenericType(request.GetType());
 
-        var handler = _serviceProvider.GetService(handlerType);
-
-        if (handler is null)
-        {
-            throw new MediatorException($"Handler was not found for {request.GetType().Name}");
-        }
-
+        var handler = _serviceProvider.GetService(handlerType) ?? throw new MediatorException($"Handler was not found for {request.GetType().Name}");
         var method = handlerType.GetMethod("Handle")!;
-        var response = method.Invoke(handler, new object[] { request });
-        if (response is null)
-        {
-            throw new MediatorException($"Response was null for {request.GetType().Name}");
-        }
+        var response = method.Invoke(handler, [request]) ?? throw new MediatorException($"Response was null for {request.GetType().Name}");
         await (Task)response;
 
     }
 
-    private async Task ApplyValidations(object request)
+    private async Task ApplyValidationsAsync(object request)
     {
         var validatorType = typeof(IValidator<>).MakeGenericType(request.GetType());
         var validator = _serviceProvider.GetService(validatorType);
@@ -66,19 +47,10 @@ public class SimpleMediator: IMediator
             var validateMethod = validatorType.GetMethod("ValidateAsync")!; // Validator is null checked above
 
             var taskToValidate =
-                (Task)validateMethod.Invoke(validator, new object[] { request, CancellationToken.None })!;
+                (Task)validateMethod.Invoke(validator, [request, CancellationToken.None])!;
             await taskToValidate;
-            var resultProperty = taskToValidate.GetType().GetProperty("Result");
-            if (resultProperty is null)
-            {
-                throw new MediatorException($"Result property was not found for {request.GetType().Name}");
-            }
-
-            var result = resultProperty.GetValue(taskToValidate);
-            if (result is null)
-            {
-                throw new MediatorException($"Result was null for {request.GetType().Name}");
-            }
+            var resultProperty = taskToValidate.GetType().GetProperty("Result") ?? throw new MediatorException($"Result property was not found for {request.GetType().Name}");
+            var result = resultProperty.GetValue(taskToValidate) ?? throw new MediatorException($"Result was null for {request.GetType().Name}");
             var validationResult = (ValidationResult)result;
 
             if (!validationResult.IsValid)

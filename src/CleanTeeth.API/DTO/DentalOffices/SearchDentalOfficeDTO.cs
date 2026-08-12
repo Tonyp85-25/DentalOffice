@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using CleanTeeth.API.Validation;
-using Microsoft.Extensions.Primitives;
+
 
 namespace CleanTeeth.API.DTO.DentalOffices;
 
@@ -17,12 +17,12 @@ public record SearchDentalOfficeDto
     public   string? City { get; init; }
 
     [Days]
-    public int[] Days{ get; init; }
+    public IList<int> Days{ get; init; }
 
     public bool IsEmpty()
     {
         return string.IsNullOrWhiteSpace(Name) && string.IsNullOrWhiteSpace(Zipcode) && string.IsNullOrWhiteSpace(City) &&
-               Days.Length == 0;
+               Days.Count == 0;
     }
 
 

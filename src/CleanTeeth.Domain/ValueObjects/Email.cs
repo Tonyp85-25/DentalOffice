@@ -13,7 +13,7 @@ public record Email()
             throw new BusinessRuleException($"The {nameof(value)} is required");
         }
 
-        if (!value.Contains("@"))
+        if (!value.Contains('@', StringComparison.OrdinalIgnoreCase))
         {
             throw new BusinessRuleException($" The {nameof(value)} is not valid");
         }

@@ -1,6 +1,5 @@
 using CleanTeeth.Application.Utilities;
-using CleanTeeth.Domain.Entities;
-using CleanTeeth.Domain.ValueObjects;
+
 
 namespace CleanTeeth.Application.Features.DentalOffices.Queries;
 

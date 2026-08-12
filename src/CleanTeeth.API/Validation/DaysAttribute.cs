@@ -3,10 +3,10 @@ using CleanTeeth.Domain.ValueObjects;
 
 namespace CleanTeeth.API.Validation;
 
-internal class DaysAttribute : ValidationAttribute
+[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+internal sealed class DaysAttribute : ValidationAttribute
 {
-
-    public string GetErrorMessage() => "Days are invalid";
+    private new const string ErrorMessage ="Days are invalid";
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
@@ -14,17 +14,18 @@ internal class DaysAttribute : ValidationAttribute
         {
             return ValidationResult.Success;
         }
-        var days = (int[])value;
-        if (days.Length == 0)
+
+        if (value is List<int> days)
         {
+            var result = days.All(int.IsPow2);
+            if (!result)
+            {
+                return new ValidationResult(ErrorMessage);
+            }
             return ValidationResult.Success;
         }
+        return new ValidationResult(ErrorMessage);
 
-        var result = days.All((d) => int.IsPow2(d));
-        if (result == false)
-        {
-            return new ValidationResult(GetErrorMessage());
-        }
-        return ValidationResult.Success;
+
     }
 }

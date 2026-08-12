@@ -4,7 +4,7 @@ namespace CleanTeeth.Tests.Infrastructure;
 
 public class FakeServiceProvider : IServiceProvider
 {
-    private List<(Type, Type)> _services = new();
+    private readonly List<(Type, Type)> _services = new();
 
     public void AddService<I, T>()
     {
@@ -13,7 +13,7 @@ public class FakeServiceProvider : IServiceProvider
 
     public object? GetService(Type serviceType)
     {
-        var service = _services.FirstOrDefault(s => s.Item1.FullName == serviceType.FullName).Item2;
+        var service = _services.FirstOrDefault(s => s.Item1.FullName != null && s.Item1.FullName.Equals(serviceType.FullName, StringComparison.OrdinalIgnoreCase) ).Item2;
         if (service is not null)
         {
             var constructors = service.GetConstructors();

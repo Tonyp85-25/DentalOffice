@@ -1,4 +1,3 @@
-using System.Reflection;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Utilities;
 using CleanTeeth.Tests.Infrastructure;
@@ -10,22 +9,23 @@ namespace CleanTeeth.Tests.Application.Utilities;
 [TestClass]
 public class SimpleMediatorTests
 {
-
-    public class FalseRequest: IRequest<string>
+    private sealed class FalseRequest: IRequest<string>
     {
         public required string Name { get; set; }
     }
 
-    public class FalseRequestValidator : AbstractValidator<FalseRequest>
+    private sealed class FalseRequestValidator : AbstractValidator<FalseRequest>
     {
+#pragma warning disable S1144
         public FalseRequestValidator()
         {
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("The field {PropertyName} is required.");
         }
+#pragma warning restore S1144
     }
 
-    public class FalseRequestHandler : IRequestHandler<FalseRequest,string>
+    private class FalseRequestHandler : IRequestHandler<FalseRequest,string>
     {
         public async Task<string> Handle(FalseRequest request)
         {
@@ -34,44 +34,48 @@ public class SimpleMediatorTests
     }
 
     [TestMethod]
-    public async Task Send_WithRegisteredHandler_HandleIsExecuted()
+    public async Task SendWithRegisteredHandlerHandleIsExecuted()
     {
-        
+
         var request = new FalseRequest(){Name = "Name"};
 
         var serviceProvider = new FakeServiceProvider();
-        
+
         serviceProvider.AddService<IRequestHandler<FalseRequest,string>,FalseRequestHandler>();
-        
+
         var mediator = new SimpleMediator(serviceProvider);
-        await mediator.Send(request);
-      
-        
+        var result =await mediator.Send(request);
+        Assert.AreEqual("Name handled", result, StringComparer.Ordinal);
+
+
     }
 
     [TestMethod]
-    [ExpectedException(typeof(MediatorException))]
-    public async Task Send_WithoutRegisteredHandler_Throws()
+    public async Task SendWithoutRegisteredHandlerThrows()
     {
         var request = new FalseRequest(){Name ="Name"};
         var serviceProvider = new FakeServiceProvider();
 
-    
+
         var mediator = new SimpleMediator(serviceProvider);
-        await mediator.Send(request);
+        await Assert.ThrowsExceptionAsync<MediatorException>(async () => await mediator.Send(request));
+
     }
 
     [TestMethod]
-    [ExpectedException(typeof(CustomValidationException))]
-    public async Task Send_InvalidCommand_Throws()
+    public async Task SendInvalidCommandThrows()
     {
         var request = new FalseRequest() { Name = "" };
         var serviceProvider = new FakeServiceProvider();
-        var validatorType = typeof(FalseRequestValidator).GetInterface("IValidator`1");
+
         serviceProvider.AddService<IValidator<FalseRequest>,FalseRequestValidator>();
         serviceProvider.AddService<IRequestHandler<FalseRequest,string>,FalseRequestHandler>();
-        
+
         var mediator = new SimpleMediator(serviceProvider);
-        await mediator.Send(request);
+        await Assert.ThrowsExceptionAsync<CustomValidationException>(async () =>
+        {
+            await mediator.Send(request);
+        });
+
     }
 }

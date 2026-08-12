@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanTeeth.Persistence.Configurations;
 
-internal class DentalOfficeConfig : IEntityTypeConfiguration<DentalOffice>
+internal sealed class DentalOfficeConfig : IEntityTypeConfiguration<DentalOffice>
 {
     public void Configure(EntityTypeBuilder<DentalOffice> builder)
     {

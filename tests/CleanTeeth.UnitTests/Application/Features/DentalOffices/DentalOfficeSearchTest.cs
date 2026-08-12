@@ -9,7 +9,7 @@ namespace CleanTeeth.Tests.Application.Features.DentalOffices;
 [TestClass]
 public class DentalOfficeSearchTest
 {
-    private IDentalOfficeRepository _repository;
+    private StubDentalOfficeRepository _repository;
     private GetDentalOfficeSearchQueryHandler _handler;
     private DentalOfficeBuilder _builder;
 
@@ -39,14 +39,14 @@ public class DentalOfficeSearchTest
         var result = await _handler.Handle(query);
 
         Assert.AreEqual(2, result.Count);
-        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office A"));
+        var row = result.Exists(e => e.Name.Equals("Dental Office A", StringComparison.Ordinal) );
+        Assert.IsTrue( row);
     }
 
     [TestMethod]
     public async Task GetExisitingDentalOfficebyZipcodeReturnResults()
     {
-        var address = Address.Create("", "street", "11112", "city");
-        var address2 = Address.Create("", "street2", "11111", "city");
+
         var dentalOffice = _builder.WithName("Dental Office A").WithAddress("3;street;11112;city").Build();
         var dentalOffice2 = _builder.WithName("Dental Office B").WithAddress("3;street2;11111;city").Build();
 
@@ -58,7 +58,7 @@ public class DentalOfficeSearchTest
         var result = await _handler.Handle(query);
 
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office A"));
+        Assert.IsTrue( result.Exists(e =>e.Name.Equals("Dental Office A",StringComparison.Ordinal)) );
     }
 
     [TestMethod]
@@ -77,7 +77,7 @@ public class DentalOfficeSearchTest
         var result = await _handler.Handle(query);
 
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office B"));
+        Assert.IsTrue( result.Exists(e => string.Equals(e.Name, "Dental Office B", StringComparison.Ordinal)));
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public class DentalOfficeSearchTest
         var result = await _handler.Handle(query);
 
         Assert.AreEqual(1, result.Count);
-        Assert.AreEqual(true, result.Exists(e =>e.Name =="Dental Office B"));
+        Assert.IsTrue( result.Exists(e =>e.Name.Equals("Dental Office B",StringComparison.Ordinal)));
     }
 
 

@@ -1,8 +1,5 @@
-using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Exceptions;
 using CleanTeeth.Application.Features.DentalOffices.Queries;
-using CleanTeeth.Domain.Entities;
-using CleanTeeth.Domain.ValueObjects;
 using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.Tests.Infrastructure;
 
@@ -11,7 +8,7 @@ namespace CleanTeeth.Tests.Application.Features.DentalOffices;
 [TestClass]
 public class DentalOfficeQueryTests
 {
-    private IDentalOfficeRepository _repository;
+    private StubDentalOfficeRepository _repository;
     private GetDentalOfficeDetailQueryHandler _handler;
     private DentalOfficeBuilder _builder;
 
@@ -24,31 +21,34 @@ public class DentalOfficeQueryTests
     }
 
     [TestMethod]
-    public async Task Handle_DentalOfficeExists_ReturnsIt()
+    public async Task HandleDentalOfficeExistsReturnsIt()
     {
         var dentalOffice = _builder.WithName("Dental Office A").Build();
         var id = dentalOffice.Id;
         await _repository.Add(dentalOffice);
         var query = new GetDentalOfficeDetailQuery { Id = id };
-        
+
         var result = await _handler.Handle(query);
-        
+
         Assert.IsNotNull(result);
         Assert.AreEqual(id,result.Id);
-        Assert.AreEqual("Dental Office A", result.Name);
+        Assert.AreEqual("Dental Office A", result.Name, StringComparer.Ordinal);
     }
 
     [TestMethod]
-    [ExpectedException(typeof(NotFoundException))]
-    public async Task Handle_DentalDoesNotExistsThrow()
+    public async Task HandleDentalDoesNotExistsThrow()
     {
-        var id = Guid.Empty;
-        var query = new GetDentalOfficeDetailQuery { Id = id };
-     
-        await _handler.Handle(query);
+
+        await Assert.ThrowsExceptionAsync<NotFoundException>(async() =>
+        {
+            var id = Guid.Empty;
+            var query = new GetDentalOfficeDetailQuery { Id = id };
+
+            await _handler.Handle(query);
+        });
     }
-    
-    
-    
-    
+
+
+
+
 }

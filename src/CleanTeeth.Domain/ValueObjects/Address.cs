@@ -1,3 +1,4 @@
+using System.Globalization;
 using CleanTeeth.Domain.Exceptions;
 
 namespace CleanTeeth.Domain.ValueObjects;
@@ -18,7 +19,7 @@ public record Address
 
     private static bool IsZipcodeValid(string zipcode)
     {
-        return zipcode.Length == 5 && int.TryParse(zipcode, out int result);
+        return zipcode.Length == 5 && int.TryParse(zipcode, CultureInfo.InvariantCulture,  out int _);
     }
 
     private static bool IsCityValid(string city)

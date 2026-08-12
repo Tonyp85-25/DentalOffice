@@ -11,16 +11,16 @@ using Security.Models;
 namespace CleanTeeth.IntegrationTests.Fixtures;
 
 
-public abstract class BaseIntegrationTest
+public abstract class BaseIntegrationTest:IAsyncLifetime
 
 {
-    protected IServiceScope Scope;
-    protected CleanTeethDbContext DbContext;
-    protected TestWebApplicationFactory Factory;
-    protected CancellationToken Token;
-    protected HttpClient Client;
-    protected string ConnectionString;
-    protected UserManager<User> UserManager;
+    internal  IServiceScope Scope;
+    internal CleanTeethDbContext DbContext;
+    internal TestWebApplicationFactory Factory;
+    internal CancellationToken Token;
+    internal HttpClient Client;
+    internal string ConnectionString;
+    internal UserManager<User> UserManager;
 
     protected BaseIntegrationTest(TestContainersFixture fixture)
     {
@@ -35,7 +35,7 @@ public abstract class BaseIntegrationTest
 
     protected async Task SeedDb()
     {
-        await Factory.EnsureDatabaseCreated(Scope, Token);
+        await TestWebApplicationFactory.EnsureDatabaseCreated(Scope, Token);
         DbContext = Scope.ServiceProvider
             .GetRequiredService<CleanTeethDbContext>();
         UserManager = Scope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -45,25 +45,35 @@ public abstract class BaseIntegrationTest
 
     protected async Task ResetDb()
     {
-        var stringBuilder = new SqlConnectionStringBuilder(ConnectionString);
-        stringBuilder.InitialCatalog = "test";
+        var stringBuilder = new SqlConnectionStringBuilder(ConnectionString)
+        {
+            InitialCatalog = "test"
+        };
         var connection = new SqlConnection(stringBuilder.ConnectionString);
 
-        await connection.OpenAsync();
+        await connection.OpenAsync(Token);
         var respawner = await Respawner.CreateAsync(
             connection,
             new RespawnerOptions { SchemasToInclude = ["dbo"]}
         );
         await respawner.ResetAsync(connection);
-        connection.Dispose();
+        await connection.DisposeAsync();
     }
 
-    protected async Task DisposeAll()
+   public async ValueTask DisposeAsync()
     {
         Scope.Dispose();
         await ResetDb();
         await DbContext.DisposeAsync();
         await Factory.DisposeAsync();
+        Client.Dispose();
+        UserManager.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    public virtual async ValueTask InitializeAsync()
+    {
+        await SeedDb();
     }
 
     protected void Login(string userName,AppRoles role)
@@ -71,5 +81,6 @@ public abstract class BaseIntegrationTest
         Client.DefaultRequestHeaders.Add(TestAuthHandler.TestUserIdHeader, userName);
         Client.DefaultRequestHeaders.Add(TestAuthHandler.TestUserRoleHeader, role.ToString());
     }
+
 
 }
