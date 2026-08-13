@@ -8,7 +8,6 @@ public class EmailTests
 {
 
     [TestMethod]
-    [ExpectedException(typeof(BusinessRuleException))]
     public void ConstructorBadEmailThrows()
     {
        Assert.ThrowsException<BusinessRuleException>(()=>
