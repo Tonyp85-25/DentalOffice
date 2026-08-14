@@ -3,6 +3,7 @@ using CleanTeeth.Application;
 using CleanTeeth.Persistence;
 using Security;
 using Security.Models;
+using ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetAppDbString();
+var connectionString = builder.Configuration.GetConnectionString("CleanTeeth") ?? builder.Configuration.GetAppDbString();
 builder.Services.AddSecurityServices(connectionString);
 builder.Services.AddPersistenceServices(connectionString);
 builder.Services.AddApplicationServices();
@@ -20,7 +21,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.AddServiceDefaults();
 var app = builder.Build();
 
 app.MapIdentityApi<User>();
@@ -50,7 +51,10 @@ if (!app.Environment.IsEnvironment("testing"))
 
 await app.RunAsync();
 
-public partial class Program
+namespace CleanTeeth.API
 {
-    protected Program() { }
+    public partial class Program
+    {
+        protected Program() { }
+    }
 }

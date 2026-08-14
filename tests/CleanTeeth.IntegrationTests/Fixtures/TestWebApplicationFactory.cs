@@ -1,4 +1,5 @@
 
+using CleanTeeth.API;
 using CleanTeeth.IntegrationTests.Services;
 using CleanTeeth.Persistence;
 using Microsoft.AspNetCore.Authentication;

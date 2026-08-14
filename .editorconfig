@@ -44,6 +44,7 @@ dotnet_diagnostic.CA2007.severity = none
 dotnet_diagnostic.IDE0046.severity = suggestion
 dotnet_diagnostic.S2094.severity = suggestion
 dotnet_diagnostic.S2326.severity = suggestion
+dotnet_diagnostic.S125.severity = suggestion
 
 
 # Code style rules
@@ -115,3 +116,5 @@ csharp_style_prefer_switch_expression = true
 csharp_style_var_elsewhere = false
 csharp_style_var_for_built_in_types = false
 csharp_style_var_when_type_is_apparent = false
+
+
