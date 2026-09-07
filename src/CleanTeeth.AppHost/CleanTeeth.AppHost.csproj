@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CleanTeeth.API\CleanTeeth.API.csproj" />
+      <ProjectReference Include="..\CleanTeeth.MigrationService\CleanTeeth.MigrationService.csproj" />
     </ItemGroup>
 
     <ItemGroup>

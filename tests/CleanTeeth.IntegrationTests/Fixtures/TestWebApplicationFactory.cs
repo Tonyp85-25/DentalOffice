@@ -24,12 +24,12 @@ public class TestWebApplicationFactory: WebApplicationFactory<Program>
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("testing");
-        builder.UseSetting("ConnectionStrings:CleanTeethConnectionString", _dbConnectionString);
+        builder.UseSetting("ConnectionStrings:CleanTeeth", _dbConnectionString);
         builder.ConfigureAppConfiguration((_, config) =>
         {
             config.AddInMemoryCollection(new Dictionary<string, string?>(StringComparer.Ordinal)
             {
-                ["ConnectionStrings:CleanTeethConnectionString"] = _dbConnectionString
+                ["ConnectionStrings:CleanTeeth"] = _dbConnectionString
             });
         });
         builder.ConfigureServices( services =>

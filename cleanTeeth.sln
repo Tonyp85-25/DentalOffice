@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.AppHost", "src\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.ServiceDefaults", "src\CleanTeeth.ServiceDefaults\CleanTeeth.ServiceDefaults.csproj", "{2F49DF90-52E5-4F9D-93FD-EEDBCD5D19B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTeeth.MigrationService", "src\CleanTeeth.MigrationService\CleanTeeth.MigrationService.csproj", "{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +176,18 @@ Global
 		{2F49DF90-52E5-4F9D-93FD-EEDBCD5D19B1}.Release|x64.Build.0 = Release|Any CPU
 		{2F49DF90-52E5-4F9D-93FD-EEDBCD5D19B1}.Release|x86.ActiveCfg = Release|Any CPU
 		{2F49DF90-52E5-4F9D-93FD-EEDBCD5D19B1}.Release|x86.Build.0 = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|x64.ActiveCfg = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|x64.Build.0 = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,5 +207,6 @@ Global
 		{20035995-A7B5-44E6-9279-7ED0B1DB70B8} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{1D6D20CB-46D9-49A7-87A6-2306AF43BC53} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{40554912-D42B-468A-94C9-16862B30DCD7} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{CEA257EE-1EBF-4D9C-BD07-333138A41FD2} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

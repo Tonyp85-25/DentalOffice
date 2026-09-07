@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-CleanTeeth.MigrationService-296b2582-a9ac-4dd1-aafe-002844f8fa08</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+        <PackageReference Include="Microsoft.Extensions.Hosting"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CleanTeeth.Persistence\CleanTeeth.Persistence.csproj" />
+      <ProjectReference Include="..\CleanTeeth.Security\CleanTeeth.Security.csproj" />
+      <ProjectReference Include="..\CleanTeeth.ServiceDefaults\CleanTeeth.ServiceDefaults.csproj" />
+    </ItemGroup>
+</Project>

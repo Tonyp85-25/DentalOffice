@@ -32,7 +32,7 @@ public static class RegisterPersistenceServices
 
     public static string GetAppDbString( this IConfiguration config)
     {
-        var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeethConnectionString"));
+        var strBuilder = new SqlConnectionStringBuilder(config.GetConnectionString("CleanTeeth"));
         if (string.IsNullOrEmpty(strBuilder.InitialCatalog))
         {
             strBuilder.DataSource = $"{config["DbHost"]},{config["DbPort"]??DefaultPort.ToString(NumberFormatInfo.InvariantInfo)}";

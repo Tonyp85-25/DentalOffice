@@ -35,7 +35,9 @@ dotnet_diagnostic.CA1515.severity = suggestion
 dotnet_diagnostic.CA1711.severity = silent
 dotnet_diagnostic.CA1715.severity = silent
 dotnet_diagnostic.CA1715.severity = none
+dotnet_diagnostic.CA1727.severity = silent
 dotnet_diagnostic.CA1812.severity = suggestion
+dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.CA1852.severity = suggestion
 dotnet_diagnostic.CA2000.severity = suggestion
 # CA2007: Consider calling ConfigureAwait on the awaited task
@@ -45,6 +47,7 @@ dotnet_diagnostic.IDE0046.severity = suggestion
 dotnet_diagnostic.S2094.severity = suggestion
 dotnet_diagnostic.S2326.severity = suggestion
 dotnet_diagnostic.S125.severity = suggestion
+dotnet_diagnostic.S6678.severity = suggestion
 
 
 # Code style rules
