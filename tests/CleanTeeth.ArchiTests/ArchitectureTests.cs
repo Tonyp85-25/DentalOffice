@@ -3,8 +3,8 @@ using ArchUnitNET.Loader;
 using ArchUnitNET.Fluent.Syntax.Elements.Types;
 using ArchUnitNET.Fluent.Syntax.Elements.Types.Classes;
 using ArchUnitNET.xUnitV3;
-using CleanTeeth.API.Controllers;
-using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
+using CleanTeeth.API.BackOffice.DentalOffices;
+using CleanTeeth.Application.Features.BackOffice.DentalOffices.CreateDentalOffice;
 using CleanTeeth.Application.Utilities;
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Persistence;
@@ -15,11 +15,11 @@ namespace CleanTeeth.ArchiTests;
 public class ArchitectureTests
 {
     private static readonly Architecture Architecture =
-        new ArchLoader().LoadAssemblies(typeof(DentalOfficeController).Assembly,
+        new ArchLoader().LoadAssemblies(typeof(DentalOfficeAdminController).Assembly,
             typeof(CreateDentalOfficeCommand).Assembly,typeof(DentalOffice).Assembly, typeof(RegisterPersistenceServices).Assembly).Build();
 
     private readonly IObjectProvider<IType> _apiLayer =
-        Types().That().ResideInAssembly(typeof(DentalOfficeController).Assembly).As("Api Layer");
+        Types().That().ResideInAssembly(typeof(DentalOfficeAdminController).Assembly).As("Api Layer");
 
     private readonly IObjectProvider<IType> _applicationLayer =
         Types().That().ResideInAssembly(typeof(CreateDentalOfficeCommand).Assembly).As("Application Layer");

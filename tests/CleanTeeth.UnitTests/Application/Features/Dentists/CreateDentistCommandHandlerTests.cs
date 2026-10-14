@@ -2,7 +2,6 @@ using CleanTeeth.Application.Contracts.Persistence;
 using CleanTeeth.Application.Contracts.Repositories;
 using CleanTeeth.Application.Contracts.Services;
 using CleanTeeth.Application.Exceptions;
-using CleanTeeth.Application.Features.Dentists.Command.CreateDentist;
 using CleanTeeth.Application.Utilities;
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Domain.ValueObjects;

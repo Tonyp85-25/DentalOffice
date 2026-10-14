@@ -1,5 +1,5 @@
 using CleanTeeth.Application.Contracts.Repositories;
-using CleanTeeth.Application.Features.DentalOffices.Queries;
+using CleanTeeth.Application.Features.PatientApp.DentalOffices.SearchDentalOffice;
 using CleanTeeth.Domain.ValueObjects;
 using CleanTeeth.Fixtures.Entities;
 using CleanTeeth.Tests.Infrastructure;

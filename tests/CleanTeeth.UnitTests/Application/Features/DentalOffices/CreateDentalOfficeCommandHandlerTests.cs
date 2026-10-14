@@ -1,6 +1,6 @@
 using CleanTeeth.Application.Contracts.Persistence;
 using CleanTeeth.Application.Contracts.Services;
-using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
+using CleanTeeth.Application.Features.BackOffice.DentalOffices.CreateDentalOffice;
 using CleanTeeth.Domain.Entities;
 using CleanTeeth.Domain.ValueObjects;
 using CleanTeeth.Tests.Infrastructure;

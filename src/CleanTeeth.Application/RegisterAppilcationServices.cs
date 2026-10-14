@@ -1,5 +1,3 @@
-using CleanTeeth.Application.Features.DentalOffices.Commands.CreateDentalOffice;
-using CleanTeeth.Application.Features.DentalOffices.Queries;
 using CleanTeeth.Application.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 

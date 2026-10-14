@@ -3,7 +3,7 @@
 GET {{API_HostAddress}}/api/dentaloffices
 Accept: application/json
 ###
-POST {{API_HostAddress}}/api/dentaloffices
+POST {{API_HostAddress}}/api/admin/dentaloffices
 Content-Type: application/json
 
 {
@@ -12,5 +12,5 @@ Content-Type: application/json
     "zipcode": "11111",
     "city": "city",
   "days": [2,4,8,16]
-} 
+}
 ###
