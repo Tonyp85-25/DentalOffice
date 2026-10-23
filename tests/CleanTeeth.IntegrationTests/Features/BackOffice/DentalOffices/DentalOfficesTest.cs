@@ -18,8 +18,6 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
 
     public DentalOfficesTest(TestContainersFixture fixture) : base(fixture)
     {
-
-
     }
 
     public override async ValueTask InitializeAsync()
@@ -34,12 +32,12 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
     public async Task ShouldCreateDentalOffice()
     {
         var  dentalOffice = new
-            { Name = "Test", Street = "street",
-                Zipcode = "11111", City = "city",
-                Number = "1",
-                Days = new List<int>{2,4,8,16}
-
-            };
+        {
+            Name = "Test", Street = "street",
+            Zipcode = "11111", City = "city",
+            Number = "1",
+            Days = new List<int> { 2, 4, 8, 16 }
+        };
 
 
         var content = JsonContent.Create(dentalOffice);
@@ -57,7 +55,7 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
             { Name = "Test", Street = "street",Zipcode = "11111", City = "city", Number = "1",Days = new List<int>{2,4,8,16}};
         var content = JsonContent.Create(dentalOffice);
         var employee =await UserManager.FindByEmailAsync("employee@test.com");
-     Assert.NotNull(employee);
+        Assert.NotNull(employee);
         Login(employee.Id,AppRoles.Employee);
         var response = await Client.PostAsync(_baseUri, content,Token );
 
@@ -91,10 +89,9 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
         var dentalOffice = _builder.WithGuid(id).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
          DbContext.DentalOffices.Add(dentalOffice);
         await DbContext.SaveChangesAsync(Token);
-        var employee =await UserManager.FindByEmailAsync("employee@test.com");
-        Assert.NotNull(employee);
-
-        Login(employee.Id,AppRoles.Employee);
+        var admin =await UserManager.FindByEmailAsync("admin@test.com");
+        Assert.NotNull(admin);
+        Login(admin.Id,AppRoles.Admin);
         var office = await Client.GetFromJsonAsync<DentalOfficeDetailDto>($"{_baseroute}/{id}",Token);
 
         Assert.NotNull(office);
@@ -112,9 +109,9 @@ public sealed class DentalOfficesTest:  BaseIntegrationTest,IClassFixture<TestCo
         var dentalOffice = _builder.WithGuid(Guid.NewGuid()).WithName("Office A").WithAddress("1;street;11111;city").WithDays(62).Build();
         DbContext.DentalOffices.Add(dentalOffice);
         await DbContext.SaveChangesAsync(Token);
-        var employee =await UserManager.FindByEmailAsync("employee@test.com");
-        Assert.NotNull(employee);
-        Login(employee.Id,AppRoles.Employee);
+        var admin =await UserManager.FindByEmailAsync("admin@test.com");
+        Assert.NotNull(admin);
+        Login(admin.Id,AppRoles.Admin);
         var response = await Client.GetAsync(new Uri($"{_baseUri.AbsoluteUri}/{id}"),Token);
 
         Assert.Equal(HttpStatusCode.NotFound,response.StatusCode);

@@ -21,6 +21,7 @@ public static class RegisterPersistenceServices
         services.AddDbContext<CleanTeethDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<IDentalOfficeRepository, DentalOfficeRepository>();
+        services.AddScoped<IDentistRepository, DentistRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkEfCore>();
         services.AddScoped<IIdProvider, GuidProvider>();
 

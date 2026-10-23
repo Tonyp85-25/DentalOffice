@@ -66,6 +66,12 @@ internal class StubDentalOfficeRepository: IDentalOfficeRepository
         return Task.FromResult<IEnumerable<DentalOffice>>(result);
     }
 
+    public Task<bool> ArePublished(IList<Guid> ids)
+    {
+       var result= ids.All((id)=>Data.Exists(d=>d.Id ==id && d.IsPublished) );
+       return Task.FromResult(result);
+    }
+
     public static void Throws()
     {
         #pragma warning disable CA2201

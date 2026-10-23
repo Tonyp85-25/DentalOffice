@@ -8,5 +8,8 @@ public interface IDentalOfficeRepository :IRepository<DentalOffice>
 {
     public Task<IEnumerable<DentalOffice>> GetAllBy(DentalOfficeCriteria criteria);
 
+    public Task<bool> ArePublished(IList<Guid> ids);
+
+
 
 }

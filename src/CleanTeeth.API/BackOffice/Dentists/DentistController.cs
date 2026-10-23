@@ -1,11 +1,13 @@
 using CleanTeeth.Application.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanTeeth.API.BackOffice.Dentists;
 
 [ApiController]
-[Route("api/dentists")]
-public class DentistController:ControllerBase
+[Authorize(Policy = "RequiresAdmin")]
+[Route("api/admin/dentists")]
+public class DentistController : ControllerBase
 {
     private readonly IMediator _mediator;
 
@@ -14,12 +16,12 @@ public class DentistController:ControllerBase
         _mediator = mediator;
     }
 
-#pragma warning disable S1144
-    async Task<IActionResult> CreateAsync(CreateDentistDto dto)
-#pragma warning restore S1144
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync(CreateDentistDto dto)
     {
-        var command = dto.ToCommand() ;
-        await _mediator.Send(command);
-        return Ok();
+        var command = dto.ToCommand();
+        var result = await _mediator.Send(command);
+        Uri location = new($"/{result}");
+        return Created(location, result);
     }
 }

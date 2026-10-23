@@ -28,6 +28,9 @@ namespace CleanTeeth.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -39,6 +42,49 @@ namespace CleanTeeth.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DentalOffices");
+                });
+
+            modelBuilder.Entity("CleanTeeth.Domain.Entities.Dentist", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dentists");
+                });
+
+            modelBuilder.Entity("DentalOfficeDentist", b =>
+                {
+                    b.Property<Guid>("DentalOfficesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DentistsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DentalOfficesId", "DentistsId");
+
+                    b.HasIndex("DentistsId");
+
+                    b.ToTable("DentalOfficeDentist");
                 });
 
             modelBuilder.Entity("CleanTeeth.Domain.Entities.DentalOffice", b =>
@@ -78,6 +124,21 @@ namespace CleanTeeth.Persistence.Migrations
                         });
 
                     b.Navigation("Address")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DentalOfficeDentist", b =>
+                {
+                    b.HasOne("CleanTeeth.Domain.Entities.DentalOffice", null)
+                        .WithMany()
+                        .HasForeignKey("DentalOfficesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CleanTeeth.Domain.Entities.Dentist", null)
+                        .WithMany()
+                        .HasForeignKey("DentistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

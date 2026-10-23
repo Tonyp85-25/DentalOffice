@@ -5,7 +5,7 @@ namespace CleanTeeth.Tests.Infrastructure;
 
 public class StubDentistRepository:IDentistRepository
 {
-    public   IList<Dentist> Data { get; }
+    public   IList<Dentist> Data { get; }=new List<Dentist>();
 
     public bool MustThrow { get; set; }
     public Task<Dentist?> GetById(Guid id)
