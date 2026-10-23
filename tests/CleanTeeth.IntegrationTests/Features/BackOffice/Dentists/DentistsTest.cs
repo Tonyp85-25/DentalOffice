@@ -62,7 +62,7 @@ public sealed class DentistsTest : BaseIntegrationTest, IClassFixture<TestContai
         Assert.Equal(dentist.FirstName, created.FirstName);
         Assert.Equal(dentist.LastName, created.LastName);
         Assert.Equal(dentist.Email, created.Email.Value);
-        Assert.Equal(dentist.Offices, created.DentalOffices.Select(d => d.Id.ToString()).ToList());
+        Assert.Equal(dentist.Offices.ToHashSet(StringComparer.Ordinal), created.DentalOffices.Select(d => d.Id.ToString()).ToHashSet(StringComparer.Ordinal));
     }
 
     [Fact]
