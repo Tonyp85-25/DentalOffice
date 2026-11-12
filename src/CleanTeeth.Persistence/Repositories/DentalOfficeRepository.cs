@@ -39,4 +39,9 @@ public class DentalOfficeRepository: Repository<DentalOffice>, IDentalOfficeRepo
         return  await query.ToListAsync();
 
     }
+
+    public async Task<bool> ArePublished(IList<Guid> ids)
+    {
+        return await Context.DentalOffices.Where(d => d.IsPublished && ids.Contains(d.Id)).AnyAsync();
+    }
 }

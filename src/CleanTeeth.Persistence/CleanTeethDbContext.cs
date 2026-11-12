@@ -20,4 +20,5 @@ public class CleanTeethDbContext :DbContext
     }
 
     public DbSet<DentalOffice> DentalOffices { get; set; }
+    public DbSet<Dentist> Dentists { get; set; }
 }

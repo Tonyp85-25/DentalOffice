@@ -25,7 +25,8 @@ public record CreateDentistDto()
     [MaxLength(60)]
     public required string Email { get; set; }
 
-    public IReadOnlyCollection<string> Offices { get; set; } 
+    [MaxLength(5)]
+    public IList<string> Offices { get; init; }
 
     public CreateDentistCommand ToCommand()
     {

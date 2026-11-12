@@ -11,7 +11,7 @@ public class Dentist
     public Email Email { get; set; } = null!;
 
 
-    private List<DentalOffice> DentalOffices { get; set; } = new();
+    public IList<DentalOffice> DentalOffices { get; } = new List<DentalOffice>();
 
     public bool IsPublished { get; private set; }
 
